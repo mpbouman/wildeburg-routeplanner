@@ -244,6 +244,27 @@ Interview met Mick afgerond op 6 juli 2026. Alle beslissingen:
 - **Fase F — afronding**: GitHub-repo + Pages inrichten (Mick heeft account),
   iPad-test op het terrein-scenario, HANDOFF/README bijwerken.
 
+## 6b. Online publicatie — LIVE (6 juli 2026)
+
+- **Live site (bezoekers)**: https://mpbouman.github.io/wildeburg-routeplanner/
+- **Editorlink (helpers)**: https://mpbouman.github.io/wildeburg-routeplanner/?editor
+- Repo: https://github.com/mpbouman/wildeburg-routeplanner (public, account
+  mpbouman). Pages serveert van **main /docs**; `vite build` schrijft naar
+  `docs/` (vite.config.js `build.outDir`). Publiceren = build + commit + push.
+- Gepubliceerde kaartdata: `public/mapdata.json` (kopie van Micks
+  mapdata(6).json; 119 punten, 129 paden). Bezoekers laden ALTIJD deze file
+  (cache-bust `?t=`); localStorage geldt alleen met `?editor` (store.js).
+- EditorBar alleen zichtbaar met `?editor` (isEditor in store.js).
+- **Undo gebouwd**: ↩ Herstel-knop in EditorBar + Ctrl+Z/Cmd+Z, max 50 stappen
+  (histRef/prevDataRef/undoingRef in App.jsx; geschiedenis vult zich in de
+  saveLocal-effect). Redo (Ctrl+Y) bestaat nog NIET.
+- iPhone-landscape: media query in styles.css (max-height 520px + min-width
+  480px): paneel 250px naast beeldvullende kaart, 100dvh.
+- gh CLI ingelogd als mpbouman (device flow; scopes repo/read:org/workflow).
+- Helperworkflow (tot slim mergen bestaat): helper opent ?editor-link, tekent
+  eigen gebied bij, klikt Exporteer en stuurt de JSON naar Mick; Mick merget
+  handmatig/later slim en publiceert.
+
 ## 7. Implementatiehints
 
 - Zij aan zij: twee `<GraphMap>`-instanties (space="img" en space="geo") in een
