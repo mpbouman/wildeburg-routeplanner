@@ -1,0 +1,2459 @@
+{
+  "meta": {
+    "imgFile": "plattegrond.jpg",
+    "imgW": 728,
+    "imgH": 993,
+    "bearing": -121.2,
+    "center": [
+      5.880762,
+      52.683091
+    ],
+    "zoom": 15.72,
+    "base": "pdok",
+    "imgNamen": false
+  },
+  "nodes": [
+    {
+      "id": "wildlive",
+      "name": "Wildlive",
+      "type": "stage",
+      "info": "Grasveld met rijplaten, naast camping 1 en de foodcourt.",
+      "img": [
+        130,
+        200
+      ],
+      "geo": [
+        5.880427236357036,
+        52.68005487819465
+      ]
+    },
+    {
+      "id": "strand",
+      "name": "Strand",
+      "type": "stage",
+      "info": "Je moet door het zand om bij dit podium te komen.",
+      "img": [
+        176,
+        296
+      ],
+      "geo": [
+        5.88091828253971,
+        52.68093353060931
+      ]
+    },
+    {
+      "id": "studiodebaan",
+      "name": "Studio de Baan",
+      "type": "stage",
+      "info": "Ochtendgloren. Bereikbaar via een pad vanaf de Kas.",
+      "img": [
+        140,
+        375
+      ],
+      "geo": [
+        5.881768072068468,
+        52.68080875430664
+      ]
+    },
+    {
+      "id": "kas",
+      "name": "Kas & De Spot",
+      "type": "stage",
+      "info": "De grote glazen kas, aan een verhard pad.",
+      "img": [
+        385,
+        407
+      ],
+      "geo": [
+        5.880882520765567,
+        52.68252411466767
+      ]
+    },
+    {
+      "id": "bamboebos",
+      "name": "Bamboebos",
+      "type": "stage",
+      "info": "In het bamboebos, vlak bij de Kas.",
+      "img": [
+        320,
+        465
+      ],
+      "geo": [
+        5.881637424326954,
+        52.68241132338565
+      ]
+    },
+    {
+      "id": "budxlodge",
+      "name": "Bud x Lodge",
+      "type": "stage",
+      "info": "Via verharde paden, podium op verharde ondergrond.",
+      "img": [
+        415,
+        483
+      ],
+      "geo": [
+        5.881119127202425,
+        52.682942666845804
+      ]
+    },
+    {
+      "id": "helling",
+      "name": "Helling",
+      "type": "stage",
+      "info": "Het podium ligt in het zand op een helling.",
+      "img": [
+        135,
+        525
+      ],
+      "geo": [
+        5.883382426165269,
+        52.68150528165589
+      ]
+    },
+    {
+      "id": "duinpan",
+      "name": "Duinpan",
+      "type": "stage",
+      "info": "Via onverharde paden, stage volledig op het zand.",
+      "img": [
+        330,
+        552
+      ],
+      "geo": [
+        5.882085252556408,
+        52.68301799336595
+      ]
+    },
+    {
+      "id": "boomboom",
+      "name": "Boom Boom",
+      "type": "stage",
+      "info": "",
+      "img": [
+        640,
+        380
+      ],
+      "geo": [
+        5.878019261420349,
+        52.68459541672223
+      ]
+    },
+    {
+      "id": "achtertuin",
+      "name": "Achtertuin",
+      "type": "stage",
+      "info": "Via onverharde paden en door het zand.",
+      "img": [
+        150,
+        740
+      ],
+      "geo": [
+        5.886373186578737,
+        52.682799665875194
+      ]
+    },
+    {
+      "id": "bamboebios",
+      "name": "Bamboe Bios",
+      "type": "stage",
+      "info": "",
+      "img": [
+        265,
+        745
+      ],
+      "geo": [
+        5.88456424538515,
+        52.68314951762093
+      ]
+    },
+    {
+      "id": "vuurtorenstrand",
+      "name": "Vuurtorenstrand",
+      "type": "stage",
+      "info": "Verhard pad tot aan de area, daarna door het zand.",
+      "img": [
+        490,
+        810
+      ],
+      "geo": [
+        5.884219796189512,
+        52.68466059640858
+      ]
+    },
+    {
+      "id": "entree",
+      "name": "Entree",
+      "type": "facility",
+      "info": "",
+      "img": [
+        630,
+        75
+      ],
+      "geo": [
+        5.87617686209137,
+        52.68258569577637
+      ]
+    },
+    {
+      "id": "ehbo",
+      "name": "EHBO",
+      "type": "facility",
+      "info": "",
+      "img": [
+        95,
+        127
+      ],
+      "geo": [
+        5.879359560608805,
+        52.67969635546913
+      ]
+    },
+    {
+      "id": "dorpshart",
+      "name": "Dorpshart & Campingwinkel",
+      "type": "facility",
+      "info": "",
+      "img": [
+        253,
+        180
+      ],
+      "geo": [
+        5.879028633333519,
+        52.68062735540704
+      ]
+    },
+    {
+      "id": "camping1",
+      "name": "Camping 1",
+      "type": "facility",
+      "info": "",
+      "img": [
+        325,
+        200
+      ],
+      "geo": [
+        5.878666787829815,
+        52.68141265231998
+      ]
+    },
+    {
+      "id": "camping2",
+      "name": "Camping 2",
+      "type": "facility",
+      "info": "",
+      "img": [
+        545,
+        290
+      ],
+      "geo": [
+        5.877733675214785,
+        52.683393776504516
+      ]
+    },
+    {
+      "id": "radiokoperenhond",
+      "name": "Radio de Koperen Hond",
+      "type": "facility",
+      "info": "",
+      "img": [
+        340,
+        320
+      ],
+      "geo": [
+        5.880602732436671,
+        52.681807929031606
+      ]
+    },
+    {
+      "id": "verwilderij",
+      "name": "De Verwilderij",
+      "type": "facility",
+      "info": "",
+      "img": [
+        245,
+        452
+      ],
+      "geo": [
+        5.881916741671091,
+        52.682111726976814
+      ]
+    },
+    {
+      "id": "vriendenvelden",
+      "name": "Vriendenvelden",
+      "type": "facility",
+      "info": "",
+      "img": [
+        655,
+        522
+      ],
+      "geo": [
+        5.879759862952511,
+        52.68523905261577
+      ]
+    },
+    {
+      "id": "eiland",
+      "name": "Eiland",
+      "type": "facility",
+      "info": "",
+      "img": [
+        455,
+        632
+      ],
+      "geo": [
+        5.883290245613523,
+        52.68365068745666
+      ]
+    },
+    {
+      "id": "camping3",
+      "name": "Camping 3",
+      "type": "facility",
+      "info": "",
+      "img": [
+        630,
+        622
+      ],
+      "geo": [
+        5.8813915820689715,
+        52.68565094217743
+      ]
+    },
+    {
+      "id": "brandpunt",
+      "name": "Brandpunt",
+      "type": "facility",
+      "info": "",
+      "img": [
+        505,
+        690
+      ],
+      "geo": [
+        5.882567467903982,
+        52.684871672795396
+      ]
+    },
+    {
+      "id": "zweefhut",
+      "name": "Zweefhut",
+      "type": "facility",
+      "info": "",
+      "img": [
+        545,
+        780
+      ],
+      "geo": [
+        5.883621566569076,
+        52.6846359763467
+      ]
+    },
+    {
+      "id": "camping4",
+      "name": "Camping 4",
+      "type": "facility",
+      "info": "",
+      "img": [
+        185,
+        838
+      ],
+      "geo": [
+        5.886841995596825,
+        52.68327527117711
+      ]
+    },
+    {
+      "id": "camping35",
+      "name": "Camping 3.5",
+      "type": "facility",
+      "info": "",
+      "img": [
+        620,
+        850
+      ],
+      "geo": [
+        5.883245479848654,
+        52.685853118474625
+      ]
+    },
+    {
+      "id": "pmr99txr2a8y",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.877057704399476,
+        52.682586360280624
+      ],
+      "img": [
+        512.5949709689783,
+        179.4050969613407
+      ]
+    },
+    {
+      "id": "pmr99tz91cgg",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.877624865012024,
+        52.68255001093152
+      ],
+      "img": [
+        499.1829244667656,
+        183.1241946737805
+      ]
+    },
+    {
+      "id": "pmr99u1zyhmb",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.878733659473795,
+        52.6825666304384
+      ],
+      "img": [
+        465.0953600193475,
+        257.35932985384125
+      ]
+    },
+    {
+      "id": "pmr99usjqwwq",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.8791915475466965,
+        52.68271280857468
+      ],
+      "img": [
+        460.5503514031284,
+        294.47689588494086
+      ]
+    },
+    {
+      "id": "pmr99uuf8uxz",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.87978189458471,
+        52.6830326511637
+      ],
+      "img": [
+        471.98341723230897,
+        360.9106706760201
+      ]
+    },
+    {
+      "id": "pmr99v191r2m",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.880116293448623,
+        52.68315325345202
+      ],
+      "img": [
+        447.68698348321817,
+        416.6534310995387
+      ]
+    },
+    {
+      "id": "pmr99v2c5xe1",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.8806431126715495,
+        52.683308714291314
+      ],
+      "img": [
+        442.70666753299355,
+        461.43719337344294
+      ]
+    },
+    {
+      "id": "pmr99v3k7s9k",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.880332441323532,
+        52.68371205032284
+      ],
+      "img": [
+        498.72249807036934,
+        468.58444400717985
+      ]
+    },
+    {
+      "id": "pmr99v5lpgts",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.879929642779302,
+        52.6840855549564
+      ],
+      "img": [
+        555.3256200138474,
+        467.7208654678622
+      ]
+    },
+    {
+      "id": "pmr99v6thjda",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.879649953479543,
+        52.684391207864934
+      ],
+      "img": [
+        593.6526667693975,
+        470.19174637865325
+      ]
+    },
+    {
+      "id": "pmr99vlprnct",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.879877437074214,
+        52.68465883920658
+      ],
+      "img": [
+        618.7341075752029,
+        503.17666470089085
+      ]
+    },
+    {
+      "id": "pmr99vn2f5iv",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.880475294949065,
+        52.68492122323096
+      ],
+      "img": [
+        622.2981430297326,
+        559.807153834002
+      ]
+    },
+    {
+      "id": "pmr99voexh2s",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881088576781906,
+        52.68514637459836
+      ],
+      "img": [
+        621.2375855997063,
+        614.9167483571532
+      ]
+    },
+    {
+      "id": "pmr99vpkzr5",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881677609867921,
+        52.68536340275023
+      ],
+      "img": [
+        620.3025110889437,
+        667.9001224539845
+      ]
+    },
+    {
+      "id": "pmr99wch7q4m",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.882162369907775,
+        52.68549379875407
+      ],
+      "img": [
+        615.5002070982387,
+        708.8285226494557
+      ]
+    },
+    {
+      "id": "pmr9ddv8mxx7",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.882627971214504,
+        52.6854477203899
+      ],
+      "img": [
+        595.0486258956423,
+        737.4420890071076
+      ]
+    },
+    {
+      "id": "pmr9ddx9ai4y",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.883183682237586,
+        52.68522608390404
+      ],
+      "img": [
+        556.7169382049732,
+        754.6448920644499
+      ]
+    },
+    {
+      "id": "pmr9dejp3aeg",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.8838589943532895,
+        52.684816181335634
+      ],
+      "img": [
+        475.28616055902603,
+        774.3149766543829
+      ]
+    },
+    {
+      "id": "pmr9df63izkj",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.884039393478815,
+        52.68454453703427
+      ],
+      "img": [
+        441.373429209283,
+        768.1485348512156
+      ]
+    },
+    {
+      "id": "pmr9dfdgd58p",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.8836068729943065,
+        52.68422644555258
+      ],
+      "img": [
+        424.99885615282466,
+        717.6649093420343
+      ]
+    },
+    {
+      "id": "pmr9dfra54di",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.883818875362323,
+        52.683985263224685
+      ],
+      "img": [
+        389.9215654613291,
+        714.9174711621577
+      ]
+    },
+    {
+      "id": "pmr9dfyp63na",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.884328342309431,
+        52.683920446835
+      ],
+      "img": [
+        361.5034453700773,
+        743.9544365879071
+      ]
+    },
+    {
+      "id": "pmr9dg12nd40",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.884808720718695,
+        52.68351108657626
+      ],
+      "img": [
+        296.90715946883006,
+        747.2234411664882
+      ]
+    },
+    {
+      "id": "pmr9dghxvk1s",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.885847016757225,
+        52.68330411457336
+      ],
+      "img": [
+        239.82768285337866,
+        793.5250226896239
+      ]
+    },
+    {
+      "id": "pmr9dgk0yv75",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.885860019241733,
+        52.68330796950303
+      ],
+      "img": [
+        238.5665254071494,
+        794.54804510981
+      ]
+    },
+    {
+      "id": "pmr9dgns4b60",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.885759271053701,
+        52.68245755976278
+      ],
+      "img": [
+        173.6585473792226,
+        719.7018396671908
+      ]
+    },
+    {
+      "id": "pmr9dhr0r5ma",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.886374005489557,
+        52.682801305481945
+      ],
+      "img": [
+        150,
+        740
+      ]
+    },
+    {
+      "id": "pmr9di0d8x6h",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.8852466301351285,
+        52.681815684973884
+      ],
+      "img": [
+        97.270710519717,
+        653.1364810405943
+      ]
+    },
+    {
+      "id": "pmr9di20pev",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.884498250703075,
+        52.681375562141625
+      ],
+      "img": [
+        81.54315484615887,
+        574.0408799119544
+      ]
+    },
+    {
+      "id": "pmr9di389myd",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.883904851944891,
+        52.68117980803436
+      ],
+      "img": [
+        85.4891531230358,
+        521.9392020025651
+      ]
+    },
+    {
+      "id": "pmr9di8n2g0g",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.882845281006439,
+        52.68220778802157
+      ],
+      "img": [
+        240.12273229111446,
+        524.3293144608482
+      ]
+    },
+    {
+      "id": "pmr9diooz9u0",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.882522841960963,
+        52.68238321947379
+      ],
+      "img": [
+        272.45897849279424,
+        515.5391284113456
+      ]
+    },
+    {
+      "id": "pmr9diqiijoa",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.882393951747957,
+        52.682431100740416
+      ],
+      "img": [
+        291.64951694404465,
+        518.5359340439956
+      ]
+    },
+    {
+      "id": "pmr9dj19xkr2",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881402066959879,
+        52.68246375891559
+      ],
+      "img": [
+        327.5373554097414,
+        445.5832352045319
+      ]
+    },
+    {
+      "id": "pmr9dj4hmhc",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881316322504546,
+        52.68261493748736
+      ],
+      "img": [
+        347.9517863311807,
+        453.22637623425237
+      ]
+    },
+    {
+      "id": "pmr9dj66ztld",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.880720417900676,
+        52.682923701949335
+      ],
+      "img": [
+        406.05721795843215,
+        435.9105158720085
+      ]
+    },
+    {
+      "id": "pmr9dj8jvdo6",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.880908506725149,
+        52.68282837813081
+      ],
+      "img": [
+        387.80203281231087,
+        441.35069982770074
+      ]
+    },
+    {
+      "id": "pmr9djb4rkuh",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881092578957606,
+        52.68287235084577
+      ],
+      "img": [
+        388.14632013518616,
+        463.2917525917797
+      ]
+    },
+    {
+      "id": "pmr9djf1ugi7",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881074142389934,
+        52.68274158793608
+      ],
+      "img": [
+        371.61269072600453,
+        446.17524684632406
+      ]
+    },
+    {
+      "id": "pmr9djld4ft5",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881090728026436,
+        52.682870847006285
+      ],
+      "img": [
+        382.4264967502768,
+        457.37028263452856
+      ]
+    },
+    {
+      "id": "pmr9djww2bzs",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.88138152043436,
+        52.682956777435066
+      ],
+      "img": [
+        381.84730335555867,
+        481.2495894560484
+      ]
+    },
+    {
+      "id": "pmr9djygiu44",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.8814672915075334,
+        52.68321425930543
+      ],
+      "img": [
+        405.8296429037947,
+        504.6546451958645
+      ]
+    },
+    {
+      "id": "pmr9dkac3bxw",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.880994722721027,
+        52.683028904769884
+      ],
+      "img": [
+        405.97379180619106,
+        461.1112489127648
+      ]
+    },
+    {
+      "id": "pmr9dlt0wybi",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.882394182274908,
+        52.68242850609903
+      ],
+      "img": [
+        291.51986212190775,
+        513.318646533181
+      ]
+    },
+    {
+      "id": "pmr9dm5kw6iq",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.882089133084065,
+        52.68300805296374
+      ],
+      "img": [
+        326.421290335012,
+        548.4025769880275
+      ]
+    },
+    {
+      "id": "pmr9e2gukh1h",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.879722954065841,
+        52.68258230286287
+      ],
+      "img": [
+        428.3166638350622,
+        327.7967220060418
+      ]
+    },
+    {
+      "id": "pmr9e2z71rrk",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.879430086292075,
+        52.68246378558388
+      ],
+      "img": [
+        421.7666508355933,
+        296.5022200561407
+      ]
+    },
+    {
+      "id": "pmr9e31tdjm4",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.87802868864847,
+        52.68196354218969
+      ],
+      "img": [
+        419.50766791417186,
+        197.95141851620787
+      ]
+    },
+    {
+      "id": "pmr9e3ldeori",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881621397716231,
+        52.68222415328336
+      ],
+      "img": [
+        293.1478540454465,
+        446.6284822909241
+      ]
+    },
+    {
+      "id": "pmr9e3psmp0f",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.882096246041556,
+        52.682124803136816
+      ],
+      "img": [
+        262.57144459551347,
+        470.60146998229516
+      ]
+    },
+    {
+      "id": "pmr9e45bnhrv",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.88198939563145,
+        52.68246148743961
+      ],
+      "img": [
+        306.71774977767734,
+        487.53431343642995
+      ]
+    },
+    {
+      "id": "pmr9e49zpinq",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881813503826351,
+        52.68266397402033
+      ],
+      "img": [
+        332.2699645375837,
+        489.56645031123026
+      ]
+    },
+    {
+      "id": "pmr9e4oylpif",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881586408954661,
+        52.682759076394234
+      ],
+      "img": [
+        355.1974172958843,
+        485.72024882279123
+      ]
+    },
+    {
+      "id": "pmr9gg7rke8b",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881578416108397,
+        52.682570643011786
+      ],
+      "img": [
+        332.1986433989053,
+        467.8412181473591
+      ]
+    },
+    {
+      "id": "pmr9gg8rsfz6",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881487390275026,
+        52.682484062704134
+      ],
+      "img": [
+        326.7422777474577,
+        455.9366317857524
+      ]
+    },
+    {
+      "id": "pmr9gh4t94cx",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881402012147163,
+        52.68246364376475
+      ],
+      "img": [
+        327.53006528649,
+        445.5834567832052
+      ]
+    },
+    {
+      "id": "pmr9gia3g6ox",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881337270935973,
+        52.682448542043545
+      ],
+      "img": [
+        327.7199675300299,
+        445.651604986402
+      ]
+    },
+    {
+      "id": "pmr9gjbnd7sx",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881366429482597,
+        52.682146280047846
+      ],
+      "img": [
+        295.59200285743924,
+        424.6427535669954
+      ]
+    },
+    {
+      "id": "pmr9gjek4biv",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.8817401074449265,
+        52.681747981526854
+      ],
+      "img": [
+        237.23601309550017,
+        421.3428709300589
+      ]
+    },
+    {
+      "id": "pmr9gjg0n9my",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881552285556808,
+        52.68169541355903
+      ],
+      "img": [
+        239.48557618508445,
+        405.5044894777815
+      ]
+    },
+    {
+      "id": "pmr9gjhrond",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.8812621530134095,
+        52.681976820841925
+      ],
+      "img": [
+        281.8116015880049,
+        406.1393655810333
+      ]
+    },
+    {
+      "id": "pmr9gk2h8mif",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.882095190448126,
+        52.68118256864594
+      ],
+      "img": [
+        166.54925856969967,
+        407.62550200806476
+      ]
+    },
+    {
+      "id": "pmr9gk3i4uhz",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.88262353843308,
+        52.68066077319381
+      ],
+      "img": [
+        84.55755616956202,
+        405.84297338347733
+      ]
+    },
+    {
+      "id": "pmr9gkk3en73",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.8833843553679515,
+        52.68094029230048
+      ],
+      "img": [
+        80.44937755882103,
+        456.2826818980242
+      ]
+    },
+    {
+      "id": "pmr9gkr08yzq",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.8833827289206795,
+        52.68093941508437
+      ],
+      "img": [
+        81.64797554116821,
+        471.8976178257318
+      ]
+    },
+    {
+      "id": "pmr9gl1jxact",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.883200705326573,
+        52.681093876394755
+      ],
+      "img": [
+        105.81882076777589,
+        470.5256139166888
+      ]
+    },
+    {
+      "id": "pmr9gl8zvzx0",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.882826487029263,
+        52.68108718262391
+      ],
+      "img": [
+        125.4889670051422,
+        441.75636621474223
+      ]
+    },
+    {
+      "id": "pmr9glfmfh1j",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.882682387304072,
+        52.68116408040362
+      ],
+      "img": [
+        135.1231297628974,
+        441.73946240321607
+      ]
+    },
+    {
+      "id": "pmr9glhjmiuw",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.882760975452101,
+        52.68131898691553
+      ],
+      "img": [
+        148.4109624912749,
+        457.58201841708586
+      ]
+    },
+    {
+      "id": "pmr9glip59qy",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.883005042892989,
+        52.681409998389455
+      ],
+      "img": [
+        147.90025772546045,
+        479.73895461070424
+      ]
+    },
+    {
+      "id": "pmr9gn8gfgab",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.883220531823497,
+        52.68178178196683
+      ],
+      "img": [
+        172.79976400832274,
+        524.7588366041178
+      ]
+    },
+    {
+      "id": "pmr9gnhybgpi",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.88189190077955,
+        52.68137820114856
+      ],
+      "img": [
+        194.10146274450346,
+        406.82427468809163
+      ]
+    },
+    {
+      "id": "pmr9gua5a3nq",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.878029957169076,
+        52.681963805410675
+      ],
+      "img": [
+        432.52279814197436,
+        178.57918628408243
+      ]
+    },
+    {
+      "id": "pmr9gv0jjcut",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.880074700521561,
+        52.68186034371277
+      ],
+      "img": [
+        338.9010681556215,
+        297.71233159536337
+      ]
+    },
+    {
+      "id": "pmr9gv6u1pxr",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.880426626081572,
+        52.68150805721393
+      ],
+      "img": [
+        257.04517815796635,
+        305.8754295646793
+      ]
+    },
+    {
+      "id": "pmr9gv9h4tbg",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.880779463737099,
+        52.68133889520175
+      ],
+      "img": [
+        250.39759494262626,
+        315.38786727651313
+      ]
+    },
+    {
+      "id": "pmr9gvttyl49",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881137181786983,
+        52.681428566809444
+      ],
+      "img": [
+        228.67438090065366,
+        359.92341346568134
+      ]
+    },
+    {
+      "id": "pmr9gvvau4jk",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881353690631784,
+        52.681495895258166
+      ],
+      "img": [
+        226.77936905068154,
+        378.63691451361194
+      ]
+    },
+    {
+      "id": "pmr9gwjnageb",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.880305557650729,
+        52.682318624630824
+      ],
+      "img": [
+        363.0170465081793,
+        366.28686269066003
+      ]
+    },
+    {
+      "id": "pmr9gwkyuvpo",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.880656478981649,
+        52.682371603347946
+      ],
+      "img": [
+        351.6533717375529,
+        387.3883405625811
+      ]
+    },
+    {
+      "id": "pmr9gws1gdwp",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.880303555435148,
+        52.68231754478046
+      ],
+      "img": [
+        361.5061699758296,
+        369.09244524719287
+      ]
+    },
+    {
+      "id": "pmr9gwtu5i0o",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.880658638365674,
+        52.68237205142145
+      ],
+      "img": [
+        351.6533717375529,
+        387.3883405625811
+      ]
+    },
+    {
+      "id": "pmr9gx1gcxuq",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.880674870174744,
+        52.682450683237704
+      ],
+      "img": [
+        357.59529712248576,
+        400.6581609160046
+      ]
+    },
+    {
+      "id": "pmr9gx8bp6q",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.880831017764677,
+        52.682265221919096
+      ],
+      "img": [
+        331.1801900753561,
+        397.92435748853495
+      ]
+    },
+    {
+      "id": "pmr9gx9bpvdl",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881092405901882,
+        52.682233173101906
+      ],
+      "img": [
+        316.7583209344747,
+        412.66035192876245
+      ]
+    },
+    {
+      "id": "pmr9gxl8rx12",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "geo": [
+        5.881487015121394,
+        52.68206756192109
+      ],
+      "img": [
+        280.64218443367554,
+        423.79737939986734
+      ]
+    },
+    {
+      "id": "pmr9h5kv84qc",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "img": [
+        461.2194761330102,
+        292.1412706150761
+      ],
+      "geo": [
+        5.878942417025474,
+        52.68263327508727
+      ]
+    },
+    {
+      "id": "pmr9h6dl3vp5",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "img": [
+        471.9409626997617,
+        361.60812748619264
+      ],
+      "geo": [
+        5.87978189458471,
+        52.6830326511637
+      ]
+    },
+    {
+      "id": "pmr9h6funrsd",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "img": [
+        428.638098916565,
+        327.4025101762845
+      ],
+      "geo": [
+        5.879722954065841,
+        52.68258230286287
+      ]
+    },
+    {
+      "id": "pmr9h6he9fro",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "img": [
+        421.3603066884275,
+        295.38022909747497
+      ],
+      "geo": [
+        5.879132629025227,
+        52.68235760513362
+      ]
+    },
+    {
+      "id": "pmr9h6s6dbg4",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "img": [
+        312.6657263879906,
+        296.0678818294582
+      ],
+      "geo": [
+        5.880074700521561,
+        52.68186034371277
+      ]
+    },
+    {
+      "id": "pmr9h79x9xbc",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "img": [
+        257.29240780634655,
+        305.5722241592207
+      ],
+      "geo": [
+        5.880426626081572,
+        52.68150805721393
+      ]
+    },
+    {
+      "id": "pmr9h83sncwr",
+      "name": "",
+      "type": "junction",
+      "info": "",
+      "img": [
+        250.37416508979504,
+        315.57195674309924
+      ],
+      "geo": [
+        5.880779463737099,
+        52.68133889520175
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "a": "entree",
+      "b": "pmr99txr2a8y",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr99txr2a8y",
+      "b": "pmr99tz91cgg",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr99v191r2m",
+      "b": "pmr99v2c5xe1",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr99v2c5xe1",
+      "b": "pmr99v3k7s9k",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr99v3k7s9k",
+      "b": "pmr99v5lpgts",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr99v5lpgts",
+      "b": "pmr99v6thjda",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr99v6thjda",
+      "b": "pmr99vlprnct",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr99vlprnct",
+      "b": "pmr99vn2f5iv",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr99vn2f5iv",
+      "b": "pmr99voexh2s",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr99voexh2s",
+      "b": "pmr99vpkzr5",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr99vpkzr5",
+      "b": "pmr99wch7q4m",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr99wch7q4m",
+      "b": "pmr9ddv8mxx7",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9ddv8mxx7",
+      "b": "pmr9ddx9ai4y",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9ddx9ai4y",
+      "b": "pmr9dejp3aeg",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "vuurtorenstrand",
+      "b": "pmr9dejp3aeg",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9df63izkj",
+      "b": "zweefhut",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "zweefhut",
+      "b": "pmr9dejp3aeg",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dejp3aeg",
+      "b": "pmr9df63izkj",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9df63izkj",
+      "b": "pmr9dfdgd58p",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dfdgd58p",
+      "b": "pmr9dfra54di",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dfra54di",
+      "b": "pmr9dfyp63na",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dfyp63na",
+      "b": "pmr9dg12nd40",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dg12nd40",
+      "b": "pmr9dghxvk1s",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dghxvk1s",
+      "b": "pmr9dgk0yv75",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dgk0yv75",
+      "b": "camping4",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dgk0yv75",
+      "b": "pmr9dgns4b60",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dgns4b60",
+      "b": "pmr9dhr0r5ma",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dhr0r5ma",
+      "b": "achtertuin",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dgns4b60",
+      "b": "pmr9di0d8x6h",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9di0d8x6h",
+      "b": "pmr9di20pev",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9di20pev",
+      "b": "pmr9di389myd",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9di389myd",
+      "b": "helling",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9di8n2g0g",
+      "b": "pmr9diooz9u0",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9diooz9u0",
+      "b": "pmr9diqiijoa",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dj8jvdo6",
+      "b": "pmr9dj66ztld",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dj8jvdo6",
+      "b": "pmr9djb4rkuh",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dj4hmhc",
+      "b": "pmr9djf1ugi7",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9djf1ugi7",
+      "b": "pmr9dj8jvdo6",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9djb4rkuh",
+      "b": "pmr9djld4ft5",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9djld4ft5",
+      "b": "pmr9djf1ugi7",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9djld4ft5",
+      "b": "budxlodge",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9djld4ft5",
+      "b": "pmr9djww2bzs",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9djww2bzs",
+      "b": "pmr9djygiu44",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dj66ztld",
+      "b": "pmr9dkac3bxw",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dkac3bxw",
+      "b": "pmr9djygiu44",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9diqiijoa",
+      "b": "pmr9dlt0wybi",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dlt0wybi",
+      "b": "pmr9dm5kw6iq",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dm5kw6iq",
+      "b": "duinpan",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dj66ztld",
+      "b": "pmr9e2gukh1h",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9e2gukh1h",
+      "b": "pmr99uuf8uxz",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9e2gukh1h",
+      "b": "pmr9e2z71rrk",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dj19xkr2",
+      "b": "bamboebos",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9e3ldeori",
+      "b": "verwilderij",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "verwilderij",
+      "b": "pmr9e3psmp0f",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9e3psmp0f",
+      "b": "pmr9dlt0wybi",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dlt0wybi",
+      "b": "pmr9e45bnhrv",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9e45bnhrv",
+      "b": "bamboebos",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9e45bnhrv",
+      "b": "pmr9e49zpinq",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9e49zpinq",
+      "b": "pmr9e4oylpif",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9e4oylpif",
+      "b": "pmr9djww2bzs",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9e4oylpif",
+      "b": "pmr9dj4hmhc",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dj4hmhc",
+      "b": "kas",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dg12nd40",
+      "b": "bamboebios",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9e49zpinq",
+      "b": "pmr9gg7rke8b",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gg7rke8b",
+      "b": "pmr9gg8rsfz6",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gg8rsfz6",
+      "b": "pmr9dj19xkr2",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9e3ldeori",
+      "b": "pmr9gh4t94cx",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gh4t94cx",
+      "b": "pmr9dj19xkr2",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gia3g6ox",
+      "b": "pmr9dj4hmhc",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9dj19xkr2",
+      "b": "pmr9gia3g6ox",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gia3g6ox",
+      "b": "pmr9gjbnd7sx",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gjek4biv",
+      "b": "pmr9gjg0n9my",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gjg0n9my",
+      "b": "pmr9gjhrond",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gjhrond",
+      "b": "pmr9gjbnd7sx",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gk2h8mif",
+      "b": "pmr9gk3i4uhz",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gk3i4uhz",
+      "b": "pmr9gkk3en73",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gkk3en73",
+      "b": "pmr9gkr08yzq",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gkr08yzq",
+      "b": "pmr9di389myd",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gkr08yzq",
+      "b": "pmr9gl1jxact",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gl1jxact",
+      "b": "helling",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gl1jxact",
+      "b": "pmr9gl8zvzx0",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gl8zvzx0",
+      "b": "pmr9glfmfh1j",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9glfmfh1j",
+      "b": "pmr9glhjmiuw",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9glhjmiuw",
+      "b": "pmr9glip59qy",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9glip59qy",
+      "b": "helling",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gl8zvzx0",
+      "b": "helling",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gk2h8mif",
+      "b": "pmr9glfmfh1j",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "helling",
+      "b": "pmr9gn8gfgab",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gn8gfgab",
+      "b": "pmr9di8n2g0g",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gjg0n9my",
+      "b": "pmr9gnhybgpi",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gnhybgpi",
+      "b": "pmr9gk2h8mif",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gn8gfgab",
+      "b": "pmr9gnhybgpi",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "studiodebaan",
+      "b": "pmr9gk3i4uhz",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "studiodebaan",
+      "b": "pmr9gk2h8mif",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9e31tdjm4",
+      "b": "pmr9gua5a3nq",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gua5a3nq",
+      "b": "pmr99tz91cgg",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gv0jjcut",
+      "b": "radiokoperenhond",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gv6u1pxr",
+      "b": "pmr9gv9h4tbg",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gvttyl49",
+      "b": "pmr9gvvau4jk",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gvvau4jk",
+      "b": "pmr9gnhybgpi",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gwjnageb",
+      "b": "pmr9gws1gdwp",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gws1gdwp",
+      "b": "pmr9gwtu5i0o",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gwtu5i0o",
+      "b": "pmr9gwkyuvpo",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gwtu5i0o",
+      "b": "pmr9gx1gcxuq",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gx1gcxuq",
+      "b": "kas",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gwtu5i0o",
+      "b": "pmr9gx8bp6q",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gx8bp6q",
+      "b": "pmr9gx9bpvdl",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gx9bpvdl",
+      "b": "pmr9gjhrond",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gjbnd7sx",
+      "b": "pmr9gxl8rx12",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gxl8rx12",
+      "b": "pmr9gjek4biv",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gxl8rx12",
+      "b": "pmr9e3ldeori",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9e3ldeori",
+      "b": "bamboebos",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr99u1zyhmb",
+      "b": "pmr99tz91cgg",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr99u1zyhmb",
+      "b": "pmr9h5kv84qc",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9h5kv84qc",
+      "b": "pmr99usjqwwq",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr99usjqwwq",
+      "b": "pmr99uuf8uxz",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr99uuf8uxz",
+      "b": "pmr9h6dl3vp5",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9h6dl3vp5",
+      "b": "pmr99v191r2m",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9e2gukh1h",
+      "b": "pmr9h6funrsd",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9h6funrsd",
+      "b": "pmr9gwjnageb",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9e2z71rrk",
+      "b": "pmr9h6he9fro",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9h6he9fro",
+      "b": "pmr9e31tdjm4",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9e2z71rrk",
+      "b": "pmr9gv0jjcut",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gv0jjcut",
+      "b": "pmr9h6s6dbg4",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9h6s6dbg4",
+      "b": "pmr9h79x9xbc",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9h79x9xbc",
+      "b": "pmr9gv6u1pxr",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gv9h4tbg",
+      "b": "pmr9gvttyl49",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9gv9h4tbg",
+      "b": "pmr9h83sncwr",
+      "surface": "onverhard",
+      "toegankelijk": true
+    },
+    {
+      "a": "pmr9h83sncwr",
+      "b": "strand",
+      "surface": "onverhard",
+      "toegankelijk": true
+    }
+  ]
+}

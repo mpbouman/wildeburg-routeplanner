@@ -1,0 +1,318 @@
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #162417;
+  color: #f4f1e8;
+}
+
+.app { display: flex; height: 100vh; gap: 14px; padding: 14px; }
+
+.loading { padding: 40px; font-size: 18px; }
+
+/* Panel */
+.panel {
+  width: 320px;
+  flex-shrink: 0;
+  background: #1e3120;
+  border: 1px solid #35513a;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.panel h1 {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffd23f;
+}
+
+.panel .sub { margin: 2px 0 8px; color: #b9c9ae; font-size: 13.5px; }
+.panel label { font-size: 13px; color: #b9c9ae; margin-top: 4px; }
+
+.panel select {
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid #35513a;
+  background: #162417;
+  color: #f4f1e8;
+  font-size: 15px;
+}
+
+.panel .check {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 8px; font-size: 14px; cursor: pointer;
+}
+
+.result { margin-top: 10px; background: #162417; border-radius: 12px; padding: 13px; }
+.eta { display: flex; align-items: baseline; gap: 10px; }
+.etaTime { font-size: 32px; font-weight: 700; color: #ff8a66; }
+.etaDist { color: #b9c9ae; font-size: 14px; }
+
+.warn {
+  background: #4a3a19; color: #ffd88a;
+  border-radius: 8px; padding: 8px 10px;
+  font-size: 13px; margin: 10px 0 0;
+}
+
+.legs { margin: 10px 0 0; padding-left: 18px; font-size: 13px; }
+.legs li { margin-bottom: 4px; color: #d8d0c0; }
+.legs strong { color: #f4f1e8; }
+
+.stageInfo {
+  font-size: 12.5px; color: #b9c9ae;
+  background: #223826; border-left: 3px solid #ffd23f;
+  padding: 8px 10px; border-radius: 0 8px 8px 0;
+}
+
+.tip { font-size: 11.5px; color: #7f9377; margin: 2px 0 0; }
+.panel footer { margin-top: auto; padding-top: 12px; font-size: 11px; color: #6d8066; }
+
+/* Kaartgedeelte */
+.mapWrap { flex: 1; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+
+.topBar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+.viewToggle { display: flex; gap: 8px; }
+
+.viewToggle button, .editorBar button {
+  padding: 7px 15px;
+  border-radius: 10px;
+  border: 1px solid #35513a;
+  background: #1e3120;
+  color: #b9c9ae;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
+.viewToggle button.active, .editorBar button.active {
+  background: #ffd23f; border-color: #ffd23f;
+  color: #162417; font-weight: 700;
+}
+
+.viewToggle .baseBtn { border-style: dashed; }
+
+.baseSelect {
+  padding: 7px 10px;
+  border-radius: 10px;
+  border: 1px dashed #35513a;
+  background: #1e3120;
+  color: #b9c9ae;
+  font-size: 13.5px;
+}
+
+/* Importeer-knop is een label rond een verborgen file-input */
+.editorBar .importBtn {
+  padding: 7px 15px;
+  border-radius: 10px;
+  border: 1px solid #35513a;
+  background: #1e3120;
+  color: #b9c9ae;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
+.editorBar {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center; flex: 1;
+}
+
+.editorBar select {
+  padding: 7px 10px; border-radius: 10px;
+  border: 1px solid #35513a; background: #162417;
+  color: #f4f1e8; font-size: 13px;
+}
+
+.editorBar .hint { font-size: 12px; color: #8fa585; }
+.editorBar button:disabled { opacity: 0.4; cursor: default; }
+.editorBar .spacer { flex: 1; }
+.editorBar .danger { color: #ff8a66; }
+
+/* Wrapper om de kaart: draagt de overlay-knoppen en de hideNames-klasse,
+   zodat React nooit aan de MapLibre-container zelf hoeft te komen */
+.graphMapWrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+}
+
+.graphMap {
+  flex: 1;
+  min-width: 0;
+  min-height: 480px;
+  border-radius: 16px;
+  border: 1px solid #35513a;
+  overflow: hidden;
+}
+
+/* Bewerkmodus: plattegrond en echte kaart zij aan zij */
+.editSplit { flex: 1; display: flex; min-height: 480px; min-width: 0; }
+.editSplit .pane { display: flex; min-width: 0; }
+.editSplit .paneGeo { flex: 1; }
+.editSplit .graphMap { min-height: 0; }
+
+.splitter {
+  width: 14px;
+  flex-shrink: 0;
+  cursor: col-resize;
+  touch-action: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.splitter::after {
+  content: '';
+  width: 4px;
+  height: 56px;
+  border-radius: 2px;
+  background: #35513a;
+}
+
+.splitter:hover::after { background: #ffd23f; }
+
+/* Markers — position MOET absolute zijn: MapLibre positioneert het element
+   met een transform t.o.v. de kaart; met relative stapelen markers als
+   blokken en verschuiven punten schijnbaar bij het zoomen. */
+.mk { position: absolute; white-space: nowrap; cursor: pointer; }
+
+.mk i {
+  display: block; width: 14px; height: 14px;
+  margin: 0 auto; border-radius: 50%;
+  background: #fff; border: 3px solid #c2492f;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.mk-facility i { border-color: #2e5e46; width: 11px; height: 11px; }
+.mk-junction i { width: 9px; height: 9px; border-color: #666; background: #ccc; }
+.mk-start i { background: #ffd23f; border-color: #7a5c00; }
+.mk-doel i { background: #ff5d3a; border-color: #7a1f0c; }
+.mk-pending i { background: #7fd0ff; border-color: #1b5e83; }
+
+.mk span {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  bottom: 16px; font-size: 12px; font-weight: 700;
+  color: #1b2b1c; background: #ffffffd9;
+  padding: 1px 6px; border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+.mk-facility span { font-weight: 400; opacity: 0.92; }
+.mk-start span { background: #ffd23f; }
+.mk-doel span { background: #ff5d3a; color: #fff; }
+.mk-pending span { background: #7fd0ff; }
+
+/* Op de zwart-witte plattegrond iets fellere markers */
+.mk-op-img i { box-shadow: 0 0 0 2px #00000066, 0 1px 4px rgba(0,0,0,.5); }
+
+/* Namen verbergen op de plattegrond (staan al op de kaart getekend);
+   geselecteerde punten en start/doel houden hun label wel */
+.hideNames .mk span { display: none; }
+.hideNames .mk-sel span,
+.hideNames .mk-start span,
+.hideNames .mk-doel span,
+.hideNames .mk-pending span { display: block; }
+
+/* Geselecteerd punt: groot en geel op BEIDE kaarten, om te zien welke
+   plattegrond-marker met welke echte-kaart-marker correspondeert */
+.mk-sel { z-index: 10; }
+
+.mk-sel i {
+  width: 28px !important;
+  height: 28px !important;
+  border-width: 6px !important;
+  border-color: #ffd23f !important;
+  box-shadow: 0 0 0 5px #ffd23f66, 0 2px 10px rgba(0, 0, 0, 0.6) !important;
+}
+
+.mk-sel span {
+  background: #ffd23f !important;
+  color: #162417 !important;
+  font-size: 14px;
+  font-weight: 700;
+  bottom: 24px;
+}
+
+/* Keuzepopup (bijv. tussenpunt verwijderen) */
+.popupScherm { position: fixed; inset: 0; z-index: 1000; }
+
+.choicePopup {
+  position: fixed;
+  transform: translateX(-50%);
+  background: #1e3120;
+  border: 1px solid #35513a;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 280px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+}
+
+.choicePopup p { margin: 0 0 4px; font-size: 13px; color: #b9c9ae; }
+
+.choicePopup button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #35513a;
+  background: #162417;
+  color: #f4f1e8;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.choicePopup button:hover { border-color: #ffd23f; }
+.choicePopup button.danger { color: #ff8a66; }
+
+/* Startweergave-knop op de echte kaart */
+.homeView {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #35513a;
+  background: #1e3120ee;
+  color: #ffd23f;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.homeView:hover { border-color: #ffd23f; }
+
+@media (max-width: 900px) {
+  .app { flex-direction: column; height: auto; }
+  .panel { width: 100%; }
+  .graphMap { min-height: 420px; height: 60vh; }
+}
+
+/* Telefoon in landscape (bijv. iPhone liggend): paneel smal naast een
+   beeldvullende kaart in plaats van gestapeld */
+@media (max-height: 520px) and (min-width: 480px) {
+  .app { flex-direction: row; height: 100vh; height: 100dvh; padding: 8px; gap: 8px; }
+  .panel {
+    width: 250px;
+    flex-shrink: 0;
+    padding: 12px;
+    gap: 6px;
+  }
+  .panel h1 { font-size: 18px; letter-spacing: 1px; }
+  .panel .sub, .tip, .legs, .stageInfo { display: none; }
+  .etaTime { font-size: 24px; }
+  .mapWrap { gap: 6px; }
+  .graphMap { min-height: 0; height: auto; }
+  .topBar { gap: 6px; }
+}
