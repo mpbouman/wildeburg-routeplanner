@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import maplibregl from 'maplibre-gl';
 import { haversineM } from '../lib/geo.js';
 import { fitImgGeo } from '../lib/fit.js';
 
@@ -59,9 +60,11 @@ function padInfo(lijn, pos) {
   const A = lijn[best.i], B = lijn[best.i + 1];
   const startP = [A[0] + best.t * (B[0] - A[0]), A[1] + best.t * (B[1] - A[1])];
   const vooruit = [startP, ...lijn.slice(best.i + 1)];
+  // ook een stukje terug: waar je vandaan kwam helpt bij het oriënteren
+  const achter = [startP, ...lijn.slice(0, best.i + 1).reverse()];
   let rest = 0;
   for (let i = 0; i < vooruit.length - 1; i++) rest += haversineM(vooruit[i], vooruit[i + 1]);
-  return { vanPad: best.d, vooruit, rest };
+  return { vanPad: best.d, vooruit, achter, rest };
 }
 
 // eerstvolgende duidelijke bocht in het pad vooruit
@@ -76,23 +79,87 @@ function volgendeBocht(punten) {
   return null;
 }
 
-// --- padstrook: komende 300 m, looprichting = omhoog -------------------------
-function PadStrook({ vooruit, pos, kop, w = 230, h = 260 }) {
+// --- padstrook: komende 300 m + stukje terug, kijkrichting = omhoog ----------
+function PadStrook({ vooruit, achter, pos, kop, w = 230, h = 300 }) {
   const rad = (kop * Math.PI) / 180;
-  const schaal = (h - 30) / 300;
-  const pts = vooruit.map((p) => {
+  const jijY = h - 62; // jouw stip iets boven de onderrand: ruimte voor "achter"
+  const schaal = (jijY - 15) / 300;
+  const naarScherm = (p) => {
     const [e, n] = toLokaal(pos, p);
     const sx = e * Math.cos(rad) - n * Math.sin(rad);
     const sy = e * Math.sin(rad) + n * Math.cos(rad);
-    return [w / 2 + sx * schaal, h - 15 - sy * schaal];
-  });
-  const d = pts.map(([x, y], i) => `${i ? 'L' : 'M'} ${x.toFixed(1)} ${y.toFixed(1)}`).join(' ');
+    return [w / 2 + sx * schaal, jijY - sy * schaal];
+  };
+  const pad = (pts) => pts.map((p, i) => {
+    const [x, y] = naarScherm(p);
+    return `${i ? 'L' : 'M'} ${x.toFixed(1)} ${y.toFixed(1)}`;
+  }).join(' ');
   return (
     <svg className="npStrook" width={w} height={h} viewBox={`0 0 ${w} ${h}`}>
-      <path d={d} fill="none" stroke="#ff5d3a" strokeWidth="5"
+      {achter && achter.length > 1 && (
+        <path d={pad(achter)} fill="none" stroke="#7f9377" strokeWidth="3.5"
+          strokeLinecap="round" strokeLinejoin="round" opacity="0.6" />
+      )}
+      <path d={pad(vooruit)} fill="none" stroke="#ff5d3a" strokeWidth="5"
         strokeLinecap="round" strokeLinejoin="round" strokeDasharray="8 5" />
-      <circle cx={w / 2} cy={h - 15} r="7" fill="#2e90ff" stroke="#fff" strokeWidth="2.5" />
+      <circle cx={w / 2} cy={jijY} r="7" fill="#2e90ff" stroke="#fff" strokeWidth="2.5" />
     </svg>
+  );
+}
+
+// --- Variant C: echte kaart (PDOK-luchtfoto) onder je voeten, draait mee -----
+function VariantEcht({ lijn, pos, kop }) {
+  const ref = useRef(null);
+  const mapRef = useRef(null);
+  const lijnRef = useRef(lijn);
+  lijnRef.current = lijn;
+
+  useEffect(() => {
+    const map = new maplibregl.Map({
+      container: ref.current,
+      style: {
+        version: 8,
+        sources: {
+          pdok: {
+            type: 'raster',
+            tiles: ['https://service.pdok.nl/hwh/luchtfotorgb/wmts/v1_0/Actueel_orthoHR/EPSG:3857/{z}/{x}/{y}.jpeg'],
+            tileSize: 256, maxzoom: 19,
+            attribution: 'Luchtfoto © Beeldmateriaal Nederland / PDOK'
+          }
+        },
+        layers: [{ id: 'pdok', type: 'raster', source: 'pdok' }]
+      },
+      center: pos, zoom: 17.4, bearing: kop,
+      interactive: false, attributionControl: { compact: true }
+    });
+    map.on('load', () => {
+      map.addSource('route', {
+        type: 'geojson',
+        data: { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: lijnRef.current } }
+      });
+      map.addLayer({
+        id: 'route', type: 'line', source: 'route',
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: { 'line-color': '#ff5d3a', 'line-width': 5, 'line-dasharray': [2, 1.2] }
+      });
+    });
+    mapRef.current = map;
+    return () => { mapRef.current = null; map.remove(); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const m = mapRef.current;
+    if (m) m.jumpTo({ center: pos, bearing: kop });
+  }, [pos, kop]);
+
+  return (
+    <div className="npKaartWrap">
+      <div ref={ref} className="npEcht" />
+      <svg className="npEchtPijl" viewBox="-20 -20 40 40">
+        <polygon points="0,-13 9,8 0,3 -9,8" fill="#2e90ff" stroke="#fff" strokeWidth="2" />
+      </svg>
+    </div>
   );
 }
 
@@ -204,7 +271,7 @@ export default function NavigatiePrototype({ data, route, doelId, startId, userG
     } catch { /* genegeerd */ }
   }
   useEffect(() => {
-    if (!kompasOk || sim) return;
+    if (!kompasOk) return;
     function onOri(e) {
       const h = e.webkitCompassHeading != null
         ? e.webkitCompassHeading
@@ -236,7 +303,11 @@ export default function NavigatiePrototype({ data, route, doelId, startId, userG
   if (sim) {
     const st = opAfstand(lijn, simStand.s);
     pos = st.pos;
-    kop = st.kop + 7 * Math.sin(simStand.s / 9); // beetje menselijk zwabberen
+    // kompas aan? Dan bepaalt de telefoon de kijkrichting, ook in de
+    // simulatie — zo zie je thuis al alles meedraaien als je draait
+    kop = kompasOk && kompas != null
+      ? kompas
+      : st.kop + 7 * Math.sin(simStand.s / 9); // beetje menselijk zwabberen
     klaar = st.klaar;
   } else {
     pos = userGeo || byId[startId]?.geo || lijn[0];
@@ -294,8 +365,11 @@ export default function NavigatiePrototype({ data, route, doelId, startId, userG
 
       {/* de drie varianten */}
       {variant === 'A' && (
+        <VariantA data={data} lijnImg={lijnImg} userImg={userImg} kopImg={kopImg} doelId={doelId} />
+      )}
+      {variant === 'C' && <VariantEcht lijn={lijn} pos={pos} kop={kop} />}
+      {(variant === 'A' || variant === 'C') && (
         <>
-          <VariantA data={data} lijnImg={lijnImg} userImg={userImg} kopImg={kopImg} doelId={doelId} />
           <div className="npMiniPijl" title="hemelsbreed naar de bestemming">
             <span style={{ transform: `rotate(${relDoel}deg)` }}>➤</span>
             <em>{Math.round(naarDoel)} m</em>
@@ -313,22 +387,8 @@ export default function NavigatiePrototype({ data, route, doelId, startId, userG
           {bocht
             ? <p className="npBocht npBochtLos">↪ over {bocht.m} m {bocht.tekst}</p>
             : <p className="npBocht npBochtLos">volg het pad</p>}
-          <PadStrook vooruit={info.vooruit} pos={pos} kop={kop} />
-          <p className="npStrookLabel">komende 300 m</p>
-        </div>
-      )}
-
-      {variant === 'C' && (
-        <div className="npMidden">
-          <div className="npRing">
-            <span className="npNoord" style={{ transform: `rotate(${-kop}deg) translateY(-74px)` }}>N</span>
-            <span className="npRingPijl" style={{ transform: `rotate(${relDoel - 90}deg)` }}>➤</span>
-            <em>{Math.round(naarDoel)} m</em>
-          </div>
-          {bocht
-            ? <p className="npBocht npBochtLos">↪ over {bocht.m} m {bocht.tekst}</p>
-            : <p className="npBocht npBochtLos">volg het pad</p>}
-          <PadStrook vooruit={info.vooruit} pos={pos} kop={kop} w={190} h={200} />
+          <PadStrook vooruit={info.vooruit} achter={info.achter} pos={pos} kop={kop} />
+          <p className="npStrookLabel">komende 300 m · grijs = waar je vandaan kwam</p>
         </div>
       )}
 
@@ -350,8 +410,11 @@ export default function NavigatiePrototype({ data, route, doelId, startId, userG
             <button className="npKnop" onClick={() => setSimStand({ s: 0, pauze: false })}>⟲</button>
           </>
         )}
-        {!sim && iosKompas && !kompasOk && (
-          <button className="npKnop" onClick={kompasAanzetten}>🧭 Kompas aan</button>
+        {!kompasOk && (
+          <button className="npKnop" onClick={kompasAanzetten}
+            title={iosKompas ? 'iOS vraagt eenmalig toestemming voor het kompas' : undefined}>
+            🧭 Kompas aan
+          </button>
         )}
         {!sim && !opTerrein && <span className="npWaarschuwing">niet op het terrein</span>}
       </div>
@@ -359,7 +422,7 @@ export default function NavigatiePrototype({ data, route, doelId, startId, userG
       {/* PROTOTYPE-schakelbalk (hoort niet bij het ontwerp zelf) */}
       <div className="npSwitcher">
         <button onClick={() => wissel(-1)}>◀</button>
-        <span>{variant} — {variant === 'A' ? 'Kaart draait mee' : variant === 'B' ? 'Pijl eerst' : 'Kompasring'}</span>
+        <span>{variant} — {variant === 'A' ? 'Plattegrond draait mee' : variant === 'B' ? 'Pijl eerst' : 'Echte kaart draait mee'}</span>
         <button onClick={() => wissel(1)}>▶</button>
       </div>
     </div>
@@ -405,13 +468,11 @@ function NpStijl() {
     .npAfstand { margin: 2px 0 4px; font-size: 17px; font-weight: 700; }
     .npStrook { background: #1e3120aa; border: 1px solid #35513a; border-radius: 14px; }
     .npStrookLabel { margin: 2px 0 0; font-size: 11.5px; color: #8fa585; }
-    .npRing { position: relative; width: 180px; height: 180px; border-radius: 50%;
-      border: 2px solid #35513a; background: #1e3120aa; display: flex; align-items: center;
-      justify-content: center; flex-direction: column; }
-    .npRingPijl { display: inline-block; font-size: 64px; color: #ffd23f; transition: transform .2s linear; }
-    .npRing em { font-style: normal; font-size: 14px; margin-top: 2px; }
-    .npNoord { position: absolute; top: 50%; left: 50%; margin: -10px 0 0 -7px; font-size: 14px;
-      color: #ff8a66; font-weight: 800; transition: transform .2s linear; }
+    /* variant C: echte kaart */
+    .npEcht { position: absolute; inset: 0; }
+    .npEchtPijl { position: absolute; top: 50%; left: 50%; width: 40px; height: 40px;
+      margin: -20px 0 0 -20px; z-index: 4; pointer-events: none;
+      filter: drop-shadow(0 2px 6px #000a); }
     /* randmarkers */
     .npRand { position: absolute; z-index: 7; display: flex; align-items: center; gap: 6px;
       background: #ffffffe8; color: #1b2b1c; border-radius: 999px; padding: 5px 12px;
