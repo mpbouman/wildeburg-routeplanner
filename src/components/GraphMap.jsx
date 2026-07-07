@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import maplibregl from 'maplibre-gl';
-import { imgToFake, fakeToImg } from '../lib/geo.js';
+import { imgToFake, fakeToImg, haversineM } from '../lib/geo.js';
 
 // Eén kleur voor alle looppaden (wens Mick: geen kleur per ondergrond)
 const EDGE_COLOR = '#e8e2d0';
@@ -64,13 +64,15 @@ const geoStyle = {
 export default function GraphMap(props) {
   const {
     data, space, base, route, startId, doelId,
-    mode, tool, pendingId, align
+    mode, tool, pendingId, align, userPos
   } = props;
 
   const divRef = useRef(null);
   const mapRef = useRef(null);
   const readyRef = useRef(false);
   const markersRef = useRef([]); // [{ id, mk }]
+  const gpsMkRef = useRef(null); // blauwe stip: waar de gebruiker nu is
+  const pijlRef = useRef(null);  // grote pijl richting de bestemming
   const p = useRef(props);
   p.current = props;
 
@@ -454,6 +456,14 @@ export default function GraphMap(props) {
         if (r.align || r.mode !== 'edit' || r.tool) return;
         r.onDeleteNode(n.id, { x: ev.clientX, y: ev.clientY });
       });
+      // rechtermuisknop op een punt = verwijderen (werkt bij elk gereedschap)
+      el.addEventListener('contextmenu', (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        const r = p.current;
+        if (r.align || r.mode !== 'edit') return;
+        r.onDeleteNode(n.id, { x: ev.clientX, y: ev.clientY });
+      });
       const mk = new maplibregl.Marker({
         element: el,
         anchor: 'center',
@@ -474,6 +484,62 @@ export default function GraphMap(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [data, route, startId, doelId, mode, tool, pendingId, align, props.selId]);
 
+  // --- blauwe stip: de eigen GPS-positie op beide kaarten -------------------
+  // Op de echte kaart staat hij exact; op de plattegrond grosso modo via
+  // dezelfde geo→img-fit die ook bij het tekenen wordt gebruikt.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const c = userPos ? (space === 'geo' ? userPos.geo : imgToFake(userPos.img)) : null;
+    if (!c) {
+      if (gpsMkRef.current) { gpsMkRef.current.remove(); gpsMkRef.current = null; }
+      return;
+    }
+    if (!gpsMkRef.current) {
+      const el = document.createElement('div');
+      el.className = 'gpsDot';
+      el.innerHTML = '<i></i>';
+      gpsMkRef.current = new maplibregl.Marker({ element: el, anchor: 'center' })
+        .setLngLat(c).addTo(map);
+    } else {
+      gpsMkRef.current.setLngLat(c);
+    }
+  }, [userPos, space]);
+
+  // --- grote pijl richting de bestemming (bezoekersweergave) ---------------
+  // De pijl wijst hemelsbreed naar de bestemming — los van hoe de route
+  // loopt (die kan ergens omheen gaan). Referentie: de GPS-positie, anders
+  // het vertrekpunt. Draait mee met de kaartrotatie (schermhoek via project).
+  useEffect(() => {
+    const map = mapRef.current;
+    const el = pijlRef.current;
+    if (!map || !el) return;
+    const q = p.current;
+    const doel = q.data.nodes.find((n) => n.id === q.doelId);
+    const startN = q.data.nodes.find((n) => n.id === q.startId);
+    const vanCoord = q.userPos
+      ? (space === 'geo' ? q.userPos.geo : imgToFake(q.userPos.img))
+      : (startN ? coordOf(startN) : null);
+    if (mode === 'edit' || !doel || !vanCoord) { el.style.display = 'none'; return; }
+    el.style.display = '';
+
+    function upd() {
+      const a = map.project(vanCoord);
+      const b = map.project(coordOf(doel));
+      const hoek = (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
+      el.querySelector('.pijl').style.transform = `rotate(${hoek}deg)`;
+    }
+    // afstand hemelsbreed, altijd uit de geo-posities
+    const van = q.userPos ? q.userPos.geo : (startN ? startN.geo : null);
+    const meters = van ? Math.round(haversineM(van, doel.geo)) : null;
+    el.querySelector('.pijlTekst').textContent =
+      (doel.name || 'bestemming') + (meters != null ? ` · ${meters} m` : '');
+    upd();
+    map.on('move', upd);
+    return () => map.off('move', upd);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [doelId, startId, userPos, mode, data, space]);
+
   // vastgezette startweergave (meta.center/zoom/bearing) altijd terug te laden
   function naarStartweergave() {
     const map = mapRef.current;
@@ -493,6 +559,10 @@ export default function GraphMap(props) {
   return (
     <div className={'graphMapWrap' + (space === 'img' && !props.labels ? ' hideNames' : '')}>
       <div ref={divRef} className="graphMap" />
+      <div ref={pijlRef} className="doelPijl" style={{ display: 'none' }}>
+        <span className="pijl">➤</span>
+        <span className="pijlTekst" />
+      </div>
       {space === 'geo' && !align && (
         <button className="homeView" onClick={naarStartweergave}
           title="Terug naar de vaste startweergave (positie, zoom en rotatie)">

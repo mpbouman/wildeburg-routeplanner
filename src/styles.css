@@ -276,6 +276,60 @@ body {
 .choicePopup button:hover { border-color: #ffd23f; }
 .choicePopup button.danger { color: #ff8a66; }
 
+/* Blauwe stip: waar de gebruiker nu is (GPS) */
+.gpsDot { position: absolute; pointer-events: none; }
+
+.gpsDot i {
+  display: block;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: #2e90ff;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 0 rgba(46, 144, 255, 0.55);
+  animation: gpsPuls 2s ease-out infinite;
+}
+
+@keyframes gpsPuls {
+  0%   { box-shadow: 0 0 0 0 rgba(46, 144, 255, 0.55); }
+  70%  { box-shadow: 0 0 0 16px rgba(46, 144, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(46, 144, 255, 0); }
+}
+
+/* Grote pijl die hemelsbreed naar de bestemming wijst (los van de route) */
+.doelPijl {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1px solid #35513a;
+  background: #1e3120ee;
+  color: #f4f1e8;
+  font-size: 14px;
+  font-weight: 700;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.doelPijl .pijl {
+  display: inline-block;
+  font-size: 22px;
+  line-height: 1;
+  color: #ffd23f;
+  transition: transform 0.15s linear;
+}
+
+.gpsMelding {
+  background: #1b3a52; color: #a8d4ff;
+  border-radius: 8px; padding: 8px 10px;
+  font-size: 12.5px; margin: 4px 0 0;
+}
+
 /* Startweergave-knop op de echte kaart */
 .homeView {
   position: absolute;

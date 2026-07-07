@@ -6,7 +6,7 @@ function fmtMin(min) {
   return min < 1 ? '< 1 min' : Math.round(min) + ' min';
 }
 
-export default function RoutePanel({ data, start, doel, accessible, route,
+export default function RoutePanel({ data, start, doel, accessible, route, gps,
   onStart, onDoel, onAccessible }) {
   const nodeById = useMemo(
     () => Object.fromEntries(data.nodes.map((n) => [n.id, n])), [data]);
@@ -27,10 +27,23 @@ export default function RoutePanel({ data, start, doel, accessible, route,
 
       <label htmlFor="start">Vertrekpunt</label>
       <select id="start" value={start} onChange={(e) => onStart(e.target.value)}>
+        {gps === 'ok' && <option value="__gps">📍 Mijn locatie (GPS)</option>}
+        {start === '__gps' && gps !== 'ok' && (
+          <option value="__gps">📍 Mijn locatie (geen GPS…)</option>
+        )}
         {startpunten.map((n) => (
           <option key={n.id} value={n.id}>{n.name}</option>
         ))}
       </select>
+
+      {gps === 'buiten' && (
+        <p className="gpsMelding">Je bent nu niet op het festivalterrein — de
+          blauwe locatiestip staat daarom uit. Kies hierboven een vertrekpunt.</p>
+      )}
+      {gps === 'geweigerd' && (
+        <p className="gpsMelding">Locatietoegang is geweigerd. Zet die aan om
+          jezelf als blauwe stip op de kaart te zien.</p>
+      )}
 
       <label htmlFor="doel">Waar wil je heen?</label>
       <select id="doel" value={doel} onChange={(e) => onDoel(e.target.value)}>

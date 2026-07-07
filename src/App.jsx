@@ -25,6 +25,9 @@ export default function App() {
   const [chainId, setChainId] = useState(null);    // laatste punt van de tekenketting
   const [selId, setSelId] = useState(null);        // geselecteerd punt: groot op beide kaarten
   const [imgNamen, setImgNamen] = useState(false); // namen tonen op de plattegrond (staan er al op getekend)
+  const [userGeo, setUserGeo] = useState(null);    // GPS-positie [lng, lat]
+  const [gpsFout, setGpsFout] = useState(null);    // 'geweigerd' | 'geen' | null
+  const gpsGekozen = useRef(false);                // GPS al eens automatisch als vertrekpunt gezet
   const chainRef = useRef(null);                   // synchroon bij (state loopt een render achter bij snelle kliks)
   const loaded = useRef(false);
   const mapsRef = useRef({});                      // { img: Map, geo: Map }
@@ -92,9 +95,67 @@ export default function App() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
+  // --- GPS: waar is de gebruiker? -------------------------------------------
+  useEffect(() => {
+    if (!('geolocation' in navigator)) { setGpsFout('geen'); return; }
+    const id = navigator.geolocation.watchPosition(
+      (pos) => { setGpsFout(null); setUserGeo([pos.coords.longitude, pos.coords.latitude]); },
+      (err) => setGpsFout(err.code === 1 ? 'geweigerd' : 'geen'),
+      { enableHighAccuracy: true, maximumAge: 5000, timeout: 20000 }
+    );
+    return () => navigator.geolocation.clearWatch(id);
+  }, []);
+
+  // terreingrens: rechthoek om alle punten + ~250 m marge
+  const terrein = useMemo(() => {
+    if (!data || data.nodes.length === 0) return null;
+    let minLng = Infinity, maxLng = -Infinity, minLat = Infinity, maxLat = -Infinity;
+    for (const n of data.nodes) {
+      minLng = Math.min(minLng, n.geo[0]); maxLng = Math.max(maxLng, n.geo[0]);
+      minLat = Math.min(minLat, n.geo[1]); maxLat = Math.max(maxLat, n.geo[1]);
+    }
+    const mLat = 250 / 111320;
+    const mLng = 250 / (111320 * Math.cos((52.68 * Math.PI) / 180));
+    return { minLng: minLng - mLng, maxLng: maxLng + mLng, minLat: minLat - mLat, maxLat: maxLat + mLat };
+  }, [data]);
+
+  const opTerrein = !!(userGeo && terrein &&
+    userGeo[0] >= terrein.minLng && userGeo[0] <= terrein.maxLng &&
+    userGeo[1] >= terrein.minLat && userGeo[1] <= terrein.maxLat);
+
+  // status voor het paneel: ok / buiten het terrein / geweigerd / zoeken
+  const gps = userGeo ? (opTerrein ? 'ok' : 'buiten') : (gpsFout || 'zoeken');
+
+  // stip op de plattegrond: geo → img via dezelfde fit als bij het tekenen
+  const userPos = useMemo(() => {
+    if (!opTerrein || !data) return null;
+    return { geo: userGeo, img: fitImgGeo(data.nodes).geoToImg(userGeo) };
+  }, [opTerrein, userGeo, data]);
+
+  // dichtstbijzijnde netwerkpunt bij de gebruiker = vertrekpunt bij GPS-start
+  const gpsStartId = useMemo(() => {
+    if (!opTerrein || !data) return null;
+    let best = Infinity, id = null;
+    for (const n of data.nodes) {
+      const d = haversineM(n.geo, userGeo);
+      if (d < best) { best = d; id = n.id; }
+    }
+    return id;
+  }, [opTerrein, userGeo, data]);
+
+  // op het terrein? Dan wordt GPS eenmalig automatisch het vertrekpunt
+  useEffect(() => {
+    if (opTerrein && !gpsGekozen.current) {
+      gpsGekozen.current = true;
+      setStart('__gps');
+    }
+  }, [opTerrein]);
+
+  const effStart = start === '__gps' ? (gpsStartId || 'entree') : start;
+
   const route = useMemo(
-    () => (data ? snelsteRoute(data, start, doel, accessible) : null),
-    [data, start, doel, accessible]
+    () => (data ? snelsteRoute(data, effStart, doel, accessible) : null),
+    [data, effStart, doel, accessible]
   );
 
   if (!data) return <div className="loading">Laden…</div>;
@@ -458,7 +519,7 @@ export default function App() {
   }
 
   const mapProps = {
-    data, route, startId: start, doelId: doel,
+    data, route, startId: effStart, doelId: doel, userPos,
     mode, tool, pendingId: chainId, align, selId,
     onToggleSelect: (id) => setSelId((s) => (s === id ? null : id)),
     onSelectNode: handleSelectNode,
@@ -479,7 +540,7 @@ export default function App() {
     <div className="app">
       <RoutePanel
         data={data} start={start} doel={doel} accessible={accessible}
-        route={route} onStart={setStart} onDoel={setDoel}
+        route={route} gps={gps} onStart={setStart} onDoel={setDoel}
         onAccessible={setAccessible} />
       <main className="mapWrap">
         <div className="topBar">
