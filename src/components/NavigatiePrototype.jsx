@@ -130,8 +130,15 @@ function VariantEcht({ lijn, pos, kop }) {
         layers: [{ id: 'pdok', type: 'raster', source: 'pdok' }]
       },
       center: pos, zoom: 17.4, bearing: kop,
-      interactive: false, attributionControl: { compact: true }
+      attributionControl: { compact: true }
     });
+    // alleen zoomen mag (pinch, scrollwiel, knoppen); positie en rotatie
+    // blijven van de wandelaar/het kompas
+    map.dragPan.disable();
+    map.dragRotate.disable();
+    map.doubleClickZoom.disable();
+    map.keyboard.disable();
+    map.touchZoomRotate.disableRotation();
     map.on('load', () => {
       map.addSource('route', {
         type: 'geojson',
@@ -153,12 +160,21 @@ function VariantEcht({ lijn, pos, kop }) {
     if (m) m.jumpTo({ center: pos, bearing: kop });
   }, [pos, kop]);
 
+  const zoomStap = (d) => {
+    const m = mapRef.current;
+    if (m) m.zoomTo(Math.max(14.5, Math.min(19.5, m.getZoom() + d)), { duration: 200 });
+  };
+
   return (
     <div className="npKaartWrap">
       <div ref={ref} className="npEcht" />
       <svg className="npEchtPijl" viewBox="-20 -20 40 40">
         <polygon points="0,-13 9,8 0,3 -9,8" fill="#2e90ff" stroke="#fff" strokeWidth="2" />
       </svg>
+      <div className="npZoom">
+        <button onClick={() => zoomStap(0.7)}>＋</button>
+        <button onClick={() => zoomStap(-0.7)}>－</button>
+      </div>
     </div>
   );
 }
@@ -209,9 +225,11 @@ function RandMarkers({ nodes, pos, kop, doelId }) {
 // --- Variant A: plattegrond onder je voeten, draait mee ----------------------
 function VariantA({ data, lijnImg, userImg, kopImg, doelId }) {
   const meta = data.meta;
-  const zoom = 1.35; // plattegrond-pixels → schermpixels
+  const [zoom, setZoom] = useState(1.35); // plattegrond-pixels → schermpixels
+  const zoomStap = (f) => setZoom((z) => Math.max(0.45, Math.min(3.5, z * f)));
   return (
-    <div className="npKaartWrap">
+    <div className="npKaartWrap"
+      onWheel={(e) => zoomStap(e.deltaY < 0 ? 1.15 : 1 / 1.15)}>
       <svg className="npKaart" viewBox="-200 -260 400 520" preserveAspectRatio="xMidYMid slice">
         <g transform={`scale(${zoom}) rotate(${-kopImg}) translate(${-userImg[0]} ${-userImg[1]})`}>
           <image href={meta.imgFile} width={meta.imgW} height={meta.imgH} />
@@ -222,6 +240,10 @@ function VariantA({ data, lijnImg, userImg, kopImg, doelId }) {
         {/* jij, altijd midden op het scherm, kijkend naar boven */}
         <polygon points="0,-13 9,8 0,3 -9,8" fill="#2e90ff" stroke="#fff" strokeWidth="2" />
       </svg>
+      <div className="npZoom">
+        <button onClick={() => zoomStap(1.35)}>＋</button>
+        <button onClick={() => zoomStap(1 / 1.35)}>－</button>
+      </div>
     </div>
   );
 }
@@ -337,13 +359,14 @@ export default function NavigatiePrototype({ data, route, doelId, startId, userG
   const kopImg = (Math.atan2(stapje[1] - userImg[1], stapje[0] - userImg[0]) * 180) / Math.PI + 90;
 
   const VARIANTEN = ['A', 'B', 'C'];
-  function wissel(richting) {
-    const i = (VARIANTEN.indexOf(variant) + richting + 3) % 3;
-    const v = VARIANTEN[i];
+  function zetVariant(v) {
     setVariant(v);
     const u = new URL(window.location.href);
     u.searchParams.set('variant', v);
     window.history.replaceState(null, '', u);
+  }
+  function wissel(richting) {
+    zetVariant(VARIANTEN[(VARIANTEN.indexOf(variant) + richting + 3) % 3]);
   }
 
   const iosKompas = window.DeviceOrientationEvent && DeviceOrientationEvent.requestPermission;
@@ -374,6 +397,10 @@ export default function NavigatiePrototype({ data, route, doelId, startId, userG
             <span style={{ transform: `rotate(${relDoel}deg)` }}>➤</span>
             <em>{Math.round(naarDoel)} m</em>
           </div>
+          <button className="npKnop npKaartKeuze"
+            onClick={() => zetVariant(variant === 'A' ? 'C' : 'A')}>
+            {variant === 'A' ? '🛰 Luchtfoto' : '🗺 Plattegrond'}
+          </button>
           {bocht && <div className="npBocht">↪ over {bocht.m} m {bocht.tekst}</div>}
         </>
       )}
@@ -468,6 +495,13 @@ function NpStijl() {
     .npAfstand { margin: 2px 0 4px; font-size: 17px; font-weight: 700; }
     .npStrook { background: #1e3120aa; border: 1px solid #35513a; border-radius: 14px; }
     .npStrookLabel { margin: 2px 0 0; font-size: 11.5px; color: #8fa585; }
+    /* zoomknoppen + kaartwissel op de kaartvarianten */
+    .npZoom { position: absolute; right: 10px; bottom: 150px; z-index: 6;
+      display: grid; gap: 6px; }
+    .npZoom button { width: 44px; height: 44px; border-radius: 12px;
+      border: 1px solid #35513a; background: #1e3120ee; color: #f4f1e8;
+      font-size: 22px; line-height: 1; cursor: pointer; }
+    .npKaartKeuze { position: absolute; top: 74px; right: 12px; z-index: 6; }
     /* variant C: echte kaart */
     .npEcht { position: absolute; inset: 0; }
     .npEchtPijl { position: absolute; top: 50%; left: 50%; width: 40px; height: 40px;
