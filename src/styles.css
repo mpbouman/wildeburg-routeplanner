@@ -324,6 +324,19 @@ body {
   transition: transform 0.15s linear;
 }
 
+.navKnop {
+  margin-top: 10px;
+  width: 100%;
+  padding: 11px;
+  border-radius: 10px;
+  border: 1px solid #ffd23f;
+  background: #ffd23f;
+  color: #162417;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 .gpsMelding {
   background: #1b3a52; color: #a8d4ff;
   border-radius: 8px; padding: 8px 10px;

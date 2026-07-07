@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import GraphMap from './components/GraphMap.jsx';
 import RoutePanel from './components/RoutePanel.jsx';
 import EditorBar from './components/EditorBar.jsx';
+import NavigatiePrototype from './components/NavigatiePrototype.jsx';
 import { snelsteRoute } from './lib/route.js';
 import { loadData, saveLocal, resetLocal, exportData, isEditor } from './lib/store.js';
 import { defaultData } from './data/defaultMapData.js';
@@ -26,6 +27,8 @@ export default function App() {
   const [selId, setSelId] = useState(null);        // geselecteerd punt: groot op beide kaarten
   const [imgNamen, setImgNamen] = useState(false); // namen tonen op de plattegrond (staan er al op getekend)
   const [userGeo, setUserGeo] = useState(null);    // GPS-positie [lng, lat]
+  const [navOpen, setNavOpen] = useState(          // navigatie-mockup (PROTOTYPE)
+    () => new URLSearchParams(window.location.search).has('nav'));
   const [gpsFout, setGpsFout] = useState(null);    // 'geweigerd' | 'geen' | null
   const gpsGekozen = useRef(false);                // GPS al eens automatisch als vertrekpunt gezet
   const chainRef = useRef(null);                   // synchroon bij (state loopt een render achter bij snelle kliks)
@@ -541,7 +544,7 @@ export default function App() {
       <RoutePanel
         data={data} start={start} doel={doel} accessible={accessible}
         route={route} gps={gps} onStart={setStart} onDoel={setDoel}
-        onAccessible={setAccessible} />
+        onAccessible={setAccessible} onNavigeer={() => setNavOpen(true)} />
       <main className="mapWrap">
         <div className="topBar">
           <div className="viewToggle" role="tablist">
@@ -594,6 +597,13 @@ export default function App() {
               onToggleLabels={wisselNamen} {...mapProps} />
           : <GraphMap key="geo" space="geo" base={base} {...mapProps} />)}
       </main>
+
+      {navOpen && (
+        <NavigatiePrototype
+          data={data} route={route} doelId={doel} startId={effStart}
+          userGeo={userGeo} opTerrein={opTerrein}
+          onClose={() => setNavOpen(false)} />
+      )}
 
       {popup && (
         <div className="popupScherm" onClick={() => setPopup(null)}>

@@ -7,7 +7,7 @@ function fmtMin(min) {
 }
 
 export default function RoutePanel({ data, start, doel, accessible, route, gps,
-  onStart, onDoel, onAccessible }) {
+  onStart, onDoel, onAccessible, onNavigeer }) {
   const nodeById = useMemo(
     () => Object.fromEntries(data.nodes.map((n) => [n.id, n])), [data]);
   // alle benoemde punten kunnen vertrekpunt én bestemming zijn
@@ -71,6 +71,10 @@ export default function RoutePanel({ data, start, doel, accessible, route, gps,
           {zand > 0 && (
             <p className="warn">Let op: circa {zand} m door het zand.</p>
           )}
+
+          <button className="navKnop" onClick={onNavigeer}>
+            🧭 Navigeer (proefversie)
+          </button>
 
           <ol className="legs">
             {route.legs.map((l, i) => (
