@@ -172,6 +172,11 @@ export default function GraphMap(props) {
       const q = p.current;
       // standaardmodus én verwijdermodus: lijn kan opgepakt/versleept worden
       if (q.align || q.mode !== 'edit' || (q.tool && q.tool !== 'delete') || e.features.length === 0) return;
+      // begon de druk op een MARKER (punt ligt vrijwel altijd op zijn eigen
+      // lijn)? Dan sleept de marker; de lijn eronder moet NIET ook oppakken,
+      // anders ontstaat er bij elk punt-verslepen een extra kruispunt.
+      const doel = e.originalEvent && e.originalEvent.target;
+      if (doel && doel.closest && doel.closest('.mk')) return;
       const key = e.features[0].properties.key;
       const [aId, bId] = key.split('|');
       const byId = Object.fromEntries(q.data.nodes.map((n) => [n.id, n]));
