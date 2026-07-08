@@ -14,6 +14,13 @@
       "runtimeArgs": ["-m", "http.server", "8899", "--directory", "C:/Users/dyn1015/Dropbox/Dynaflow/Claude code folder/wildeburg-joint-test"],
       "port": 8899,
       "autoPort": false
+    },
+    {
+      "name": "companion-fase2",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8912", "--directory", "C:/Users/dyn1015/Dropbox/Dynaflow/Claude code folder/wildeburg-companion"],
+      "port": 8912,
+      "autoPort": false
     }
   ]
 }

@@ -7,7 +7,7 @@ function fmtMin(min) {
 }
 
 export default function RoutePanel({ data, start, doel, accessible, route, gps,
-  onStart, onDoel, onAccessible, onNavigeer }) {
+  onStart, onDoel, onAccessible, onNavigeer, open = true, onToggle }) {
   const nodeById = useMemo(
     () => Object.fromEntries(data.nodes.map((n) => [n.id, n])), [data]);
   // alle benoemde punten kunnen vertrekpunt én bestemming zijn
@@ -20,6 +20,11 @@ export default function RoutePanel({ data, start, doel, accessible, route, gps,
 
   return (
     <aside className="panel">
+      <button className="panelToggle" onClick={onToggle}
+        title={open ? 'Navigeervlak inklappen' : 'Navigeervlak uitklappen'}
+        aria-label={open ? 'Navigeervlak inklappen' : 'Navigeervlak uitklappen'}>
+        {open ? '‹' : '›'}
+      </button>
       <header>
         <h1>Wildeburg</h1>
         <p className="sub">Routeplanner — snelste looproute naar een stage</p>

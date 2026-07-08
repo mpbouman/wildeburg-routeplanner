@@ -15,6 +15,7 @@ body {
 
 /* Panel */
 .panel {
+  position: relative;
   width: 320px;
   flex-shrink: 0;
   background: #1e3120;
@@ -25,7 +26,37 @@ body {
   flex-direction: column;
   gap: 10px;
   overflow-y: auto;
+  transition: width .18s ease;
 }
+
+/* Navigeervlak in-/uitklappen */
+.panelToggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: #274a2c;
+  color: #f4f1e8;
+  border: 1px solid #3d6344;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.panelToggle:hover { background: #2f5836; }
+.app.panelDicht .panel {
+  width: 50px;
+  min-width: 50px;
+  padding: 10px 8px;
+  overflow: hidden;
+}
+.app.panelDicht .panel > *:not(.panelToggle) { display: none; }
+.app.panelDicht .panelToggle { right: 9px; top: 9px; }
 
 .panel h1 {
   margin: 0;

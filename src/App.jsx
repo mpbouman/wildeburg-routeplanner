@@ -45,6 +45,18 @@ export default function App() {
   const prevDataRef = useRef(null);                // vorige data, om bij elke wijziging te bewaren
   const undoingRef = useRef(false);                // true tijdens een herstel-actie (dan niets bewaren)
   const [histLen, setHistLen] = useState(0);
+  // Navigeervlak (RoutePanel) inklapbaar — scheelt horizontale ruimte, m.n. in de
+  // bewerkmodus. Keuze onthouden in localStorage.
+  const [panelOpen, setPanelOpen] = useState(() => {
+    try { return localStorage.getItem('wb-panel-dicht') !== '1'; } catch { return true; }
+  });
+  function togglePanel() {
+    setPanelOpen((v) => {
+      const nv = !v;
+      try { localStorage.setItem('wb-panel-dicht', nv ? '0' : '1'); } catch { /* negeren */ }
+      return nv;
+    });
+  }
 
   function setChain(id) {
     chainRef.current = id;
@@ -688,11 +700,12 @@ export default function App() {
   }
 
   return (
-    <div className="app">
+    <div className={'app' + (panelOpen ? '' : ' panelDicht')}>
       <RoutePanel
         data={data} start={start} doel={doel} accessible={accessible}
         route={route} gps={gps} onStart={setStart} onDoel={setDoel}
-        onAccessible={setAccessible} onNavigeer={() => setNavOpen(true)} />
+        onAccessible={setAccessible} onNavigeer={() => setNavOpen(true)}
+        open={panelOpen} onToggle={togglePanel} />
       <main className="mapWrap">
         <div className="topBar">
           <div className="viewToggle" role="tablist">

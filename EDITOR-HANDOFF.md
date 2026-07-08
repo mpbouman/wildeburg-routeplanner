@@ -13,11 +13,16 @@ raak die niet aan.
 ## 0. HARDE GUARDRAILS (de live editor moet veilig blijven)
 
 - De routeplanner draait **live** op GitHub Pages, gebouwd vanaf **`main` → `/docs`**.
-- Er is al een branch **`editor-revamp`** met de nieuwe editor. **Werk ALLEEN op die branch.**
-  - **NOOIT** naar `main` committen, **NOOIT** `/docs` aanraken of herbouwen, **NIET pushen**
-    tot Mick de nieuwe versie goedkeurt.
-  - Geen destructieve git (`reset --hard`, `clean`, `checkout -- .`). Committen naar de
-    branch mag (checkpoints zijn goed).
+- **UPDATE 2026-07-08: de editor-revamp is nu LIVE gepubliceerd** (main = `ac0f38a`, GitHub
+  Pages serveert `docs/`). Er is nu ook een **🚀 Publiceer-knop** in de editor die de kaart
+  live naar de companion pusht (Supabase) — zie de memory `wildeburg-map-push-mechanism`.
+  Werk nog steeds op branch **`editor-revamp`** (origin heeft 'm nu als backup-branch).
+  **Publiceren = bewust:** `npm run build` (→ `/docs`) → committen op `editor-revamp` →
+  `git push origin editor-revamp:main`. Pas doen als Mick het zegt.
+  - Geen destructieve git (`reset --hard`, `clean`, `checkout -- .`) — een subagent draaide
+    ooit `git checkout -- public/…` en draaide daarmee de nieuwe kaart + hi-res plattegrond
+    terug; **`public/plattegrond.jpg` MOET 3072×4096 blijven** (herstel uit
+    `../wildeburg-companion/assets/map/plattegrond.jpg`). Committen naar de branch mag.
 - **Breek het `mapdata.json`-schema niet.** De companion haalt dit bestand **live** op van
   de routeplanner-Pages, dus het moet achterwaarts compatibel blijven. Je mag **velden
   toevoegen** (zoals `node.fixed`, `meta.hidePlattegrondNetwork`) maar niets verwijderen/hernoemen.
