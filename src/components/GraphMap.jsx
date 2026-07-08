@@ -434,6 +434,7 @@ export default function GraphMap(props) {
       const el = document.createElement('div');
       el.className = 'mk mk-' + n.type + (state ? ' mk-' + state : '') +
         (n.id === q.selId ? ' mk-sel' : '') +
+        (n.fixed ? ' mk-fixed' : '') +
         (space === 'img' ? ' mk-op-img' : '');
       el.innerHTML = '<i></i>' + (n.name ? '<span>' + n.name + '</span>' : '');
       el.addEventListener('click', (ev) => {

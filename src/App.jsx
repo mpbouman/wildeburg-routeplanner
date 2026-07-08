@@ -518,6 +518,58 @@ export default function App() {
     setData((d) => ({ ...d, meta: { ...d.meta, imgNamen: nieuw } }));
   }
 
+  // bezoekersvlag: verberg op de plattegrond het ruwe netwerk (kruispunten +
+  // paden) voor festivalbezoekers; alleen de actieve route blijft zichtbaar.
+  // In de editor blijft alles zichtbaar — we bewaren enkel de vlag in meta.
+  function toggleHidePlattegrond() {
+    setData((d) => ({
+      ...d,
+      meta: { ...d.meta, hidePlattegrondNetwork: !d.meta.hidePlattegrondNetwork }
+    }));
+  }
+
+  // geselecteerd punt vast/los zetten als ankerpunt voor "Schaal rest"
+  function toggleFixed() {
+    if (!selId) return;
+    setData((d) => ({
+      ...d,
+      nodes: d.nodes.map((n) => (n.id === selId ? { ...n, fixed: !n.fixed } : n))
+    }));
+  }
+
+  // Schaal rest: fit een gelijkvormigheidstransformatie (rotatie + uniforme
+  // schaal + translatie, kleinste kwadraten) uit de geo→img-correspondenties
+  // van de VASTE punten, en zet elk NIET-vast punt op img = transform(geo).
+  // Zo klapt de rest van de gestileerde plattegrond op de echte geometrie,
+  // verankerd op de vaste punten. Undo werkt (het is een gewone data-wijziging).
+  function scaleRest() {
+    const fixed = data.nodes.filter((n) => n.fixed && n.img && n.geo);
+    if (fixed.length < 2) {
+      window.alert(
+        'Zet eerst minstens 2 punten vast (selecteer een punt en klik "Vastzetten").\n' +
+        'Die vaste punten dienen als ankers; de plattegrond-posities van alle ' +
+        'andere punten worden daaruit herberekend.'
+      );
+      return;
+    }
+    const los = data.nodes.filter((n) => !n.fixed).length;
+    if (los === 0) {
+      window.alert('Alle punten staan vast — er is niets om te schalen.');
+      return;
+    }
+    const fit = fitImgGeo(fixed);
+    setData((d) => ({
+      ...d,
+      nodes: d.nodes.map((n) =>
+        n.fixed || !n.geo ? n : { ...n, img: fit.geoToImg(n.geo) })
+    }));
+    window.alert(
+      `Plattegrond geschaald: ${los} punt${los === 1 ? '' : 'en'} verplaatst ` +
+      `op basis van ${fixed.length} vaste anker${fixed.length === 1 ? '' : 's'}. ` +
+      'Ongedaan maken kan met Herstel (Ctrl+Z).'
+    );
+  }
+
   function startSplitDrag(e) {
     e.preventDefault();
     const rect = e.currentTarget.parentElement.getBoundingClientRect();
@@ -605,10 +657,14 @@ export default function App() {
           {isEditor && <EditorBar
             mode={mode} tool={tool} surface={surface} newType={newType}
             align={align}
+            selNode={selId ? data.nodes.find((n) => n.id === selId) : null}
+            hidePlattegrond={!!(data.meta && data.meta.hidePlattegrondNetwork)}
             onMode={(m) => { setMode(m); setChain(null); setAlign(false); setSelId(null); }}
             onTool={(t) => { setTool(t); setChain(null); }}
             onAlign={setAlign}
             onSurface={setSurface} onNewType={setNewType}
+            onToggleFixed={toggleFixed} onScaleRest={scaleRest}
+            onToggleHidePlattegrond={toggleHidePlattegrond}
             onUndo={undo} canUndo={histLen > 0}
             onExport={() => exportData(data)} onImport={handleImport}
             onDefaultView={setDefaultView} onMerge={mergeDuplicates}
@@ -617,12 +673,20 @@ export default function App() {
         {mode === 'edit' ? (
           <div className="editSplit">
             <div className="pane" style={{ width: `${split * 100}%` }}>
+              <span className="spaceLabel spaceLabel-img"
+                title="Slepen op de plattegrond past de img-coördinaten (gestileerde pixels) aan.">
+                Plattegrond · img&nbsp;[x,y]
+              </span>
               <GraphMap key="img" space="img" labels={imgNamen}
                 onToggleLabels={wisselNamen} {...mapProps} />
             </div>
             <div className="splitter" onPointerDown={startSplitDrag}
               title="Sleep om de verdeling aan te passen" />
             <div className="pane paneGeo">
+              <span className="spaceLabel spaceLabel-geo"
+                title="Slepen op de echte kaart past de geo-coördinaten (lng, lat) aan.">
+                Echte kaart · geo&nbsp;[lng,lat]
+              </span>
               <GraphMap key="geo" space="geo" base={base} {...mapProps} />
             </div>
           </div>

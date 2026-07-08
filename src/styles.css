@@ -109,31 +109,69 @@ body {
   font-size: 13.5px;
 }
 
-/* Importeer-knop is een label rond een verborgen file-input */
-.editorBar .importBtn {
-  padding: 7px 15px;
-  border-radius: 10px;
-  border: 1px solid #35513a;
-  background: #1e3120;
-  color: #b9c9ae;
-  font-size: 13.5px;
-  cursor: pointer;
+.editorBar {
+  display: flex; flex-wrap: wrap; gap: 6px; align-items: center; flex: 1;
 }
 
-.editorBar {
-  display: flex; flex-wrap: wrap; gap: 8px; align-items: center; flex: 1;
+/* Gegroepeerde toolbar: knoppen in logische clusters met een subtiele
+   omkadering, zodat het geen losse rij tekstknoppen meer is */
+.tbGroup {
+  display: flex; align-items: center; gap: 4px;
+  padding: 3px; border-radius: 12px;
+  background: #16241799; border: 1px solid #2a3f2c;
 }
+
+/* Iconische knop: icoon boven/naast een kort label */
+.tbBtn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 10px; border-radius: 9px;
+  border: 1px solid transparent; background: transparent;
+  color: #b9c9ae; font-size: 12.5px; line-height: 1;
+  cursor: pointer; white-space: nowrap;
+}
+.tbBtn:hover:not(:disabled) { background: #1e3120; border-color: #35513a; }
+.tbBtn .tbIcon { font-size: 15px; }
+.tbBtn.active {
+  background: #ffd23f; border-color: #ffd23f;
+  color: #162417; font-weight: 700;
+}
+.tbBtn:disabled { opacity: 0.4; cursor: default; }
+.tbBtn.danger { color: #ff8a66; }
+.tbBtn.danger.active { color: #162417; }
 
 .editorBar select {
-  padding: 7px 10px; border-radius: 10px;
+  padding: 6px 9px; border-radius: 9px;
   border: 1px solid #35513a; background: #162417;
-  color: #f4f1e8; font-size: 13px;
+  color: #f4f1e8; font-size: 12.5px;
 }
 
-.editorBar .hint { font-size: 12px; color: #8fa585; }
-.editorBar button:disabled { opacity: 0.4; cursor: default; }
+.editorBar .hint {
+  flex-basis: 100%; font-size: 12px; color: #8fa585;
+  padding: 2px 4px 0;
+}
 .editorBar .spacer { flex: 1; }
-.editorBar .danger { color: #ff8a66; }
+
+/* Ruimte-label boven elke bewerkpane: welke coördinaten pas je hier aan? */
+.editSplit .pane { position: relative; }
+.spaceLabel {
+  position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+  z-index: 6;
+  padding: 4px 9px; border-radius: 8px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 0.2px;
+  pointer-events: none; user-select: none;
+  background: #162417cc; border: 1px solid #35513a; color: #cfe0c2;
+  backdrop-filter: blur(2px);
+}
+.spaceLabel-img { border-color: #6b7a63; }
+.spaceLabel-geo { border-color: #ffd23f88; color: #ffe9a3; }
+
+/* Vastgezet ankerpunt: herkenbare ring (naast een eventuele selectie) */
+.mk-fixed i {
+  box-shadow: 0 0 0 3px #4aa3ff, 0 1px 4px rgba(0, 0, 0, 0.5) !important;
+}
+.mk-fixed.mk-sel i {
+  box-shadow: 0 0 0 5px #ffd23f66, 0 0 0 8px #4aa3ff, 0 2px 10px rgba(0, 0, 0, 0.6) !important;
+}
 
 /* Wrapper om de kaart: draagt de overlay-knoppen en de hideNames-klasse,
    zodat React nooit aan de MapLibre-container zelf hoeft te komen */
