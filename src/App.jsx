@@ -8,6 +8,7 @@ import { snelsteRoute, routeMetPijl } from './lib/route.js';
 import { loadData, saveLocal, resetLocal, exportData, isEditor } from './lib/store.js';
 import { defaultData } from './data/defaultMapData.js';
 import { fitImgGeo } from './lib/fit.js';
+import { buildWarp } from './lib/warp.js';
 import { haversineM } from './lib/geo.js';
 
 // Bezoekers-herontwerp (synthese) achter ?ontwerp — laat de live-app ongemoeid.
@@ -30,6 +31,7 @@ export default function App() {
   const [chainId, setChainId] = useState(null);    // laatste punt van de tekenketting
   const [selId, setSelId] = useState(null);        // geselecteerd punt: groot op beide kaarten
   const [imgNamen, setImgNamen] = useState(false); // namen tonen op de plattegrond (staan er al op getekend)
+  const [preview, setPreview] = useState(false);   // voorbeeld: plattegrond zoals de companion-app 'm toont
   const [userGeo, setUserGeo] = useState(null);    // GPS-positie [lng, lat]
   const [navOpen, setNavOpen] = useState(          // navigatie-mockup (PROTOTYPE)
     () => new URLSearchParams(window.location.search).has('nav'));
@@ -188,14 +190,16 @@ export default function App() {
     return 'p' + Date.now().toString(36) + Math.floor(Math.random() * 46656).toString(36);
   }
 
-  // nieuw punt; positie in de andere kaartruimte grosso modo via fit op
-  // alle punten die al in beide ruimtes staan
+  // nieuw punt; positie in de andere kaartruimte via de lokale warp (zie
+  // warp.js) als er ≥2 vaste ankers zijn — dan valt het nieuwe punt meteen
+  // ongeveer op zijn juiste plek in een al gewarpt gebied. Anders (of met
+  // <2 ankers) de kale globale fit uit alle punten (oud gedrag).
   function makeNode(coords, space, type, name) {
-    const fit = fitImgGeo(data.nodes);
+    const { toImg, toGeo } = buildWarp(data.nodes);
     return {
       id: newId(), name: name || '', type, info: '',
-      geo: space === 'geo' ? coords : fit.imgToGeo(coords),
-      img: space === 'img' ? coords : fit.geoToImg(coords)
+      geo: space === 'geo' ? coords : toGeo(coords),
+      img: space === 'img' ? coords : toImg(coords)
     };
   }
 
@@ -572,36 +576,10 @@ export default function App() {
       return;
     }
 
-    // 1. globale gelijkvormigheidsfit uit alle ankers
-    const T = fitImgGeo(anchors).geoToImg;
-
-    // lokale-meter-metriek (lng isotropiseren met cos(lat), zoals in fit.js)
-    const lat0 = anchors.reduce((s, a) => s + a.geo[1], 0) / anchors.length;
-    const mLng = 111320 * Math.cos((lat0 * Math.PI) / 180);
-    const mLat = 111320;
-
-    // 2. residu per anker
-    const res = anchors.map((a) => {
-      const t = T(a.geo);
-      return { geo: a.geo, img: a.img, rx: a.img[0] - t[0], ry: a.img[1] - t[1] };
-    });
-
-    const EPS = 1e-6; // m²: voorkomt deling door nul precies op een anker
-    function warp(g) {
-      const base = T(g);
-      let wSum = 0, cx = 0, cy = 0;
-      for (const a of res) {
-        const dx = (g[0] - a.geo[0]) * mLng;
-        const dy = (g[1] - a.geo[1]) * mLat;
-        const d2 = dx * dx + dy * dy;
-        if (d2 < 1e-9) return [a.img[0], a.img[1]]; // valt exact op dit anker
-        const w = 1 / (d2 + EPS);
-        wSum += w; cx += w * a.rx; cy += w * a.ry;
-      }
-      return [base[0] + cx / wSum, base[1] + cy / wSum];
-    }
-
-    const nieuw = new Map(morph.map((n) => [n.id, warp(n.geo)]));
+    // zelfde warp als bij het toevoegen van nieuwe punten (warp.js) — hier
+    // toegepast op ALLE niet-vaste kruispunten in één keer
+    const { toImg } = buildWarp(data.nodes);
+    const nieuw = new Map(morph.map((n) => [n.id, toImg(n.geo)]));
     setData((d) => ({
       ...d,
       nodes: d.nodes.map((n) =>
@@ -710,6 +688,7 @@ export default function App() {
             onSurface={setSurface} onNewType={setNewType}
             onToggleFixed={toggleFixed} onScaleRest={scaleRest}
             onToggleHidePlattegrond={toggleHidePlattegrond}
+            preview={preview} onTogglePreview={() => setPreview((v) => !v)}
             onUndo={undo} canUndo={histLen > 0}
             onExport={() => exportData(data)} onImport={handleImport}
             onDefaultView={setDefaultView} onMerge={mergeDuplicates}
@@ -722,7 +701,7 @@ export default function App() {
                 title="Slepen op de plattegrond past de img-coördinaten (gestileerde pixels) aan.">
                 Plattegrond · img&nbsp;[x,y]
               </span>
-              <GraphMap key="img" space="img" labels={imgNamen}
+              <GraphMap key="img" space="img" labels={imgNamen} preview={preview}
                 onToggleLabels={wisselNamen} {...mapProps} />
             </div>
             <div className="splitter" onPointerDown={startSplitDrag}

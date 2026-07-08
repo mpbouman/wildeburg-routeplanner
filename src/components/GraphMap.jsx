@@ -387,6 +387,7 @@ export default function GraphMap(props) {
     const map = mapRef.current;
     if (!map || !readyRef.current) return;
     const q = p.current;
+    map.setLayoutProperty('edges-layer', 'visibility', q.preview ? 'none' : 'visible');
     const byId = Object.fromEntries(q.data.nodes.map((n) => [n.id, n]));
     map.getSource('edges').setData({
       type: 'FeatureCollection',
@@ -426,7 +427,7 @@ export default function GraphMap(props) {
     markersRef.current = [];
 
     for (const n of q.data.nodes) {
-      if (n.type === 'junction' && q.mode !== 'edit') continue;
+      if (n.type === 'junction' && (q.mode !== 'edit' || q.preview)) continue;
       const state =
         n.id === q.doelId ? 'doel' :
         n.id === q.startId ? 'start' :
@@ -436,12 +437,12 @@ export default function GraphMap(props) {
         (n.id === q.selId ? ' mk-sel' : '') +
         (n.fixed ? ' mk-fixed' : '') +
         (space === 'img' ? ' mk-op-img' : '');
-      el.innerHTML = '<i></i>' + (n.name ? '<span>' + n.name + '</span>' : '');
+      el.innerHTML = '<i></i>' + (n.name && !q.preview ? '<span>' + n.name + '</span>' : '');
       el.addEventListener('click', (ev) => {
         ev.stopPropagation();
         const r = p.current;
         if (r.align) return;
-        if (r.mode === 'edit') {
+        if (r.mode === 'edit' && !r.preview) {
           if (r.tool === 'draw') r.onChainNodeClick(n.id);
           else if (r.tool === 'delete') r.onDeleteNode(n.id, { x: ev.clientX, y: ev.clientY });
           else if (!r.tool) r.onToggleSelect(n.id); // uitlichten op beide kaarten
@@ -454,7 +455,7 @@ export default function GraphMap(props) {
       el.addEventListener('dblclick', (ev) => {
         ev.stopPropagation();
         const r = p.current;
-        if (r.align || r.mode !== 'edit' || r.tool) return;
+        if (r.align || r.mode !== 'edit' || r.preview || r.tool) return;
         r.onDeleteNode(n.id, { x: ev.clientX, y: ev.clientY });
       });
       // rechtermuisknop op een punt = verwijderen (werkt bij elk gereedschap)
@@ -462,7 +463,7 @@ export default function GraphMap(props) {
         ev.preventDefault();
         ev.stopPropagation();
         const r = p.current;
-        if (r.align || r.mode !== 'edit') return;
+        if (r.align || r.mode !== 'edit' || r.preview) return;
         r.onDeleteNode(n.id, { x: ev.clientX, y: ev.clientY });
       });
       const mk = new maplibregl.Marker({
@@ -470,7 +471,7 @@ export default function GraphMap(props) {
         anchor: 'center',
         // beetpakbaar in standaardmodus én verwijdermodus (klik = verwijderen,
         // slepen = verplaatsen)
-        draggable: q.mode === 'edit' && !q.align && (!q.tool || q.tool === 'delete')
+        draggable: q.mode === 'edit' && !q.preview && !q.align && (!q.tool || q.tool === 'delete')
       }).setLngLat(coordOf(n)).addTo(map);
       mk.on('dragend', () => {
         const ll = mk.getLngLat();
@@ -483,7 +484,7 @@ export default function GraphMap(props) {
 
   useEffect(() => { syncEdges(); syncRoute(); syncMarkers(); },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, route, startId, doelId, mode, tool, pendingId, align, props.selId]);
+    [data, route, startId, doelId, mode, tool, pendingId, align, props.selId, props.preview]);
 
   // --- blauwe stip: de eigen GPS-positie op beide kaarten -------------------
   // Op de echte kaart staat hij exact; op de plattegrond grosso modo via
@@ -558,7 +559,9 @@ export default function GraphMap(props) {
   // een React-herrender van die container wist die (kaart valt dan uit
   // elkaar). Knoppen en de namen-schakelklasse zitten daarom op een wrapper.
   return (
-    <div className={'graphMapWrap' + (space === 'img' && !props.labels ? ' hideNames' : '')}>
+    <div className={'graphMapWrap' +
+      (space === 'img' && (!props.labels || props.preview) ? ' hideNames' : '') +
+      (props.preview ? ' previewApp' : '')}>
       <div ref={divRef} className="graphMap" />
       <div ref={pijlRef} className="doelPijl" style={{ display: 'none' }}>
         <span className="pijl">➤</span>
@@ -570,11 +573,16 @@ export default function GraphMap(props) {
           ⌂ Start
         </button>
       )}
-      {space === 'img' && (
+      {space === 'img' && !props.preview && (
         <button className="homeView" onClick={props.onToggleLabels}
           title="Naamlabels op de plattegrond tonen of verbergen (de namen staan al op de kaart getekend)">
           {props.labels ? 'Namen uit' : 'Namen aan'}
         </button>
+      )}
+      {props.preview && (
+        <div className="previewBadge" title="Zo toont de companion-app de plattegrond: geen paden, geen namen, alleen klikbare puntjes.">
+          📱 Voorbeeld companion-app
+        </div>
       )}
     </div>
   );

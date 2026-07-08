@@ -398,6 +398,23 @@ body {
 
 .homeView:hover { border-color: #ffd23f; }
 
+/* Voorbeeld: hoe de companion-app de plattegrond straks toont (dots only) */
+.previewApp .mk span { display: none !important; }
+.previewApp .graphMap { filter: saturate(0.9); }
+.previewBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 5;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ffd23f88;
+  background: #1e3120ee;
+  color: #ffd23f;
+  font-size: 12.5px;
+  pointer-events: none;
+}
+
 @media (max-width: 900px) {
   .app { flex-direction: column; height: auto; }
   .panel { width: 100%; }

@@ -37,9 +37,9 @@ function TB({ icon, label, active, disabled, danger, onClick, title }) {
 
 export default function EditorBar({
   mode, tool, surface, newType, align,
-  selNode, hidePlattegrond,
+  selNode, hidePlattegrond, preview,
   onMode, onTool, onAlign, onSurface, onNewType,
-  onToggleFixed, onScaleRest, onToggleHidePlattegrond,
+  onToggleFixed, onScaleRest, onToggleHidePlattegrond, onTogglePreview,
   onUndo, canUndo,
   onExport, onImport, onDefaultView, onMerge, onReset
 }) {
@@ -125,6 +125,11 @@ export default function EditorBar({
               active={!!hidePlattegrond}
               onClick={onToggleHidePlattegrond}
               title="Voor bezoekers op de plattegrond: verberg het ruwe navigatienetwerk (kruispunten + paden); alleen de actieve route blijft zichtbaar. In de editor blijft alles zichtbaar." />
+            <TB icon={preview ? '📱' : '🔍'}
+              label="Voorbeeld app"
+              active={!!preview}
+              onClick={onTogglePreview}
+              title="Toon de plattegrond zoals de companion-app 'm straks laat zien: alleen klikbare puntjes, zonder paden en zonder namen. De echte kaart blijft gewoon bewerkbaar." />
           </div>
 
           <div className="tbGroup">
