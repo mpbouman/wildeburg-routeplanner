@@ -41,7 +41,8 @@ export default function EditorBar({
   onMode, onTool, onAlign, onSurface, onNewType,
   onToggleFixed, onScaleRest, onToggleHidePlattegrond, onTogglePreview,
   onUndo, canUndo,
-  onExport, onImport, onDefaultView, onMerge, onReset
+  onExport, onImport, onDefaultView, onMerge, onReset,
+  onPublish, publishing
 }) {
   function kiesImportBestand(e) {
     const file = e.target.files && e.target.files[0];
@@ -160,6 +161,10 @@ export default function EditorBar({
             <TB icon="⟲" label="Reset" danger
               onClick={onReset}
               title="Eigen bewerkingen wissen en terug naar de standaarddata" />
+            <TB icon="🚀" label={publishing ? 'Bezig…' : 'Publiceer'}
+              disabled={publishing}
+              onClick={onPublish}
+              title="Huidige editor-kaart direct live zetten voor alle bezoekers van de companion" />
           </div>
 
           <span className="hint">{align ? ALIGN_HINT : (HINT[tool] || HINT_STANDAARD)}</span>

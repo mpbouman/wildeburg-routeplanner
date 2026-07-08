@@ -16,6 +16,7 @@ const isOntwerp = new URLSearchParams(window.location.search).has('ontwerp');
 
 export default function App() {
   const [data, setData] = useState(null);
+  const [publishing, setPublishing] = useState(false);
   const [start, setStart] = useState('entree');
   const [doel, setDoel] = useState('strand');
   const [accessible, setAccessible] = useState(false);
@@ -503,6 +504,44 @@ export default function App() {
     });
   }
 
+  // huidige editor-kaart live publiceren naar de companion (Supabase), zodat
+  // bezoekers de nieuwe kaart meteen zien zonder handmatige export/deploy
+  async function publishToCompanion() {
+    if (publishing) return;
+    if (!window.confirm('De LIVE kaart voor alle bezoekers overschrijven met de huidige editor-kaart?')) return;
+
+    let pw = localStorage.getItem('wb_publish_pw');
+    if (!pw) {
+      pw = window.prompt('Publiceer-wachtwoord:');
+      if (!pw) return;
+    }
+
+    setPublishing(true);
+    try {
+      const res = await fetch('https://pvszepseulwrdbiylhtj.supabase.co/rest/v1/rpc/publish_mapdata', {
+        method: 'POST',
+        headers: {
+          apikey: 'sb_publishable_XvLMuPXN1JNKD4tq7R-d2w_hBUbNDPl',
+          Authorization: 'Bearer sb_publishable_XvLMuPXN1JNKD4tq7R-d2w_hBUbNDPl',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ pw, payload: data })
+      });
+      if (res.ok) {
+        localStorage.setItem('wb_publish_pw', pw);
+        window.alert("✓ Kaart gepubliceerd naar de companion. Bezoekers zien 'm binnen ~10s.");
+      } else {
+        if (res.status === 400) localStorage.removeItem('wb_publish_pw');
+        const j = await res.json().catch(() => null);
+        window.alert('Publiceren mislukt: ' + (j?.message || res.status));
+      }
+    } catch (err) {
+      window.alert('Publiceren mislukt: ' + err.message);
+    } finally {
+      setPublishing(false);
+    }
+  }
+
   // bezoekersweergave: elk aangeklikt punt (of de dichtstbijzijnde bij een
   // klik op de kaart) wordt de bestemming
   function handleSelectNode(node) {
@@ -692,7 +731,8 @@ export default function App() {
             onUndo={undo} canUndo={histLen > 0}
             onExport={() => exportData(data)} onImport={handleImport}
             onDefaultView={setDefaultView} onMerge={mergeDuplicates}
-            onReset={handleReset} />}
+            onReset={handleReset}
+            onPublish={publishToCompanion} publishing={publishing} />}
         </div>
         {mode === 'edit' ? (
           <div className="editSplit">
