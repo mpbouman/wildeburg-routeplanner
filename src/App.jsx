@@ -537,35 +537,80 @@ export default function App() {
     }));
   }
 
-  // Schaal rest: fit een gelijkvormigheidstransformatie (rotatie + uniforme
-  // schaal + translatie, kleinste kwadraten) uit de geo→img-correspondenties
-  // van de VASTE punten, en zet elk NIET-vast punt op img = transform(geo).
-  // Zo klapt de rest van de gestileerde plattegrond op de echte geometrie,
-  // verankerd op de vaste punten. Undo werkt (het is een gewone data-wijziging).
+  // Schaal rest: LOKALE interpolatie-warp van geo → img voor de NIET-vaste
+  // KRUISPUNTEN (paden). De vaste punten (ankers) blijven exact staan; stages
+  // en faciliteiten blijven ongemoeid (die staan al goed). De warp is:
+  //   1. globale gelijkvormigheidsfit T: geo→img (kleinste kwadraten, uit
+  //      ALLE ankers) — hergebruikt de wiskunde van fitImgGeo.
+  //   2. per anker een residu r_i = anker.img − T(anker.geo).
+  //   3. voor een kruispunt met geo g:
+  //        img = T(g) + ( Σ wᵢ·rᵢ ) / ( Σ wᵢ ),  wᵢ = 1/(dist(g,ankerᵢ)² + ε)
+  //      met afstand in lokale METERS (lng geïsotropiseerd via cos(lat)).
+  // Exact op de ankers (wᵢ→∞ daar), lokaal (dichtbije ankers domineren) en
+  // glad. Undo werkt (gewone data-wijziging).
   function scaleRest() {
-    const fixed = data.nodes.filter((n) => n.fixed && n.img && n.geo);
-    if (fixed.length < 2) {
+    const anchors = data.nodes.filter((n) => n.fixed && n.img && n.geo);
+    if (anchors.length < 2) {
       window.alert(
-        'Zet eerst minstens 2 punten vast (selecteer een punt en klik "Vastzetten").\n' +
-        'Die vaste punten dienen als ankers; de plattegrond-posities van alle ' +
-        'andere punten worden daaruit herberekend.'
+        'Zet eerst minstens 2 vaste punten (ankers) — idealiter 3 of meer, ' +
+        'verspreid over het terrein.\n\nSelecteer een punt en klik ' +
+        '"Vastzetten". Alleen de NIET-vaste kruispunten (paden) worden dan ' +
+        'lokaal naar hun echte-wereldvorm gewarpt; stages en faciliteiten ' +
+        'blijven staan.'
       );
       return;
     }
-    const los = data.nodes.filter((n) => !n.fixed).length;
-    if (los === 0) {
-      window.alert('Alle punten staan vast — er is niets om te schalen.');
+
+    // Te morfen punten: alleen kruispunten die NIET vast zijn (en geo hebben)
+    const morph = data.nodes.filter(
+      (n) => n.type === 'junction' && !n.fixed && n.geo);
+    if (morph.length === 0) {
+      window.alert(
+        'Geen niet-vaste kruispunten om te warpen. (Alleen paden/kruispunten ' +
+        'worden verplaatst; stages en faciliteiten blijven staan.)'
+      );
       return;
     }
-    const fit = fitImgGeo(fixed);
+
+    // 1. globale gelijkvormigheidsfit uit alle ankers
+    const T = fitImgGeo(anchors).geoToImg;
+
+    // lokale-meter-metriek (lng isotropiseren met cos(lat), zoals in fit.js)
+    const lat0 = anchors.reduce((s, a) => s + a.geo[1], 0) / anchors.length;
+    const mLng = 111320 * Math.cos((lat0 * Math.PI) / 180);
+    const mLat = 111320;
+
+    // 2. residu per anker
+    const res = anchors.map((a) => {
+      const t = T(a.geo);
+      return { geo: a.geo, img: a.img, rx: a.img[0] - t[0], ry: a.img[1] - t[1] };
+    });
+
+    const EPS = 1e-6; // m²: voorkomt deling door nul precies op een anker
+    function warp(g) {
+      const base = T(g);
+      let wSum = 0, cx = 0, cy = 0;
+      for (const a of res) {
+        const dx = (g[0] - a.geo[0]) * mLng;
+        const dy = (g[1] - a.geo[1]) * mLat;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < 1e-9) return [a.img[0], a.img[1]]; // valt exact op dit anker
+        const w = 1 / (d2 + EPS);
+        wSum += w; cx += w * a.rx; cy += w * a.ry;
+      }
+      return [base[0] + cx / wSum, base[1] + cy / wSum];
+    }
+
+    const nieuw = new Map(morph.map((n) => [n.id, warp(n.geo)]));
     setData((d) => ({
       ...d,
       nodes: d.nodes.map((n) =>
-        n.fixed || !n.geo ? n : { ...n, img: fit.geoToImg(n.geo) })
+        nieuw.has(n.id) ? { ...n, img: nieuw.get(n.id) } : n)
     }));
     window.alert(
-      `Plattegrond geschaald: ${los} punt${los === 1 ? '' : 'en'} verplaatst ` +
-      `op basis van ${fixed.length} vaste anker${fixed.length === 1 ? '' : 's'}. ` +
+      `Plattegrond gewarpt: ${morph.length} kruispunt${morph.length === 1 ? '' : 'en'} ` +
+      `lokaal verplaatst op basis van ${anchors.length} vaste anker` +
+      `${anchors.length === 1 ? '' : 's'}. Stages en faciliteiten bleven staan. ` +
       'Ongedaan maken kan met Herstel (Ctrl+Z).'
     );
   }

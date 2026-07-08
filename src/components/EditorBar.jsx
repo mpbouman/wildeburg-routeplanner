@@ -112,7 +112,7 @@ export default function EditorBar({
           <div className="tbGroup" role="group" aria-label="Plattegrond">
             <TB icon="🧮" label="Schaal rest"
               onClick={onScaleRest}
-              title="Herbereken de plattegrond-posities (img) van alle NIET-vastgezette punten uit de echte-wereldgeometrie (geo), verankerd op de vaste punten. Minstens 2 vaste punten nodig." />
+              title="Warp de plattegrond-posities (img) van de NIET-vaste KRUISPUNTEN lokaal naar hun echte-wereldvorm (geo), verankerd op de vaste punten (die blijven exact staan). Stages en faciliteiten blijven ongemoeid. Minstens 2 vaste ankers nodig, idealiter 3+." />
             <TB icon="🧭" label="Kaart uitlijnen" active={align}
               onClick={() => onAlign(!align)}
               title="Echte kaart onder de vaststaande punten door bewegen (geo-posities schuiven mee)" />
