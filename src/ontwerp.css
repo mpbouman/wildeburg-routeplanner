@@ -1,0 +1,323 @@
+/* ============================================================
+   Wildeburg Routeplanner — bezoekersontwerp (?ontwerp)
+   Synthese: kalme kaart-held (Kompasblad) + wegwijzer/vertrektijden
+   (Paalwijzer) in de zeefdruk-huisstijl van wildeburg.nl (Routekrant).
+   Alles is gescoped onder .ontwerp zodat de live-app onaangeroerd blijft.
+   ============================================================ */
+
+@font-face {
+  font-family: 'Alte Haas Grotesk';
+  src: url('./fonts/AlteHaasGrotesk.woff2') format('woff2');
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+.ontwerp {
+  /* zeefdruk-palet, zon-verbleekt (van wildeburg.nl) */
+  --paper: #f0ede4;
+  --paper-2: #fbf9f3;
+  --sand: #d8cfb7;
+  --tan: #dcc19c;
+  --ink: #272727;
+  --muted: #75817d;
+  --clay: #c2492f;
+  --terra: #dd8d6e;
+  --peach: #ecbbaa;
+  --green: #bfd8b4;
+  --sage: #b3bdbd;
+  --blue: #6f91bd;
+  --peri: #aec1d7;
+  --lilac: #dfc2eb;
+  --board: #2b2622;   /* het enige donkere vlak: de vertrektijd */
+
+  --display: 'Alte Haas Grotesk', 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+  --body: 'Inter', 'Segoe UI', system-ui, sans-serif;
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---- kaart, beeldvullend ---- */
+.ow-map { position: absolute; inset: 0; display: flex; }
+.ontwerp .graphMapWrap { flex: 1; }
+.ontwerp .graphMap {
+  border: none;
+  border-radius: 0;
+  min-height: 0;
+}
+
+/* ingebouwde kaartknop van GraphMap (⌂ Start / Namen) — naar rechts, onder
+   de zoomknoppen, en in papierkleur i.p.v. het oude donkergroen */
+.ontwerp .homeView {
+  top: 96px; right: 10px; left: auto;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1.5px solid var(--sand);
+  border-radius: 11px;
+  font-family: var(--display);
+  box-shadow: 0 2px 0 rgba(39, 39, 39, 0.12);
+}
+.ontwerp .homeView:hover { border-color: var(--clay); }
+
+/* richtingpijl naar de bestemming = de "wegwijzer-arm" boven de kaart */
+.ontwerp .doelPijl {
+  top: 14px;
+  background: var(--paper);
+  border: 1.5px solid var(--sand);
+  color: var(--ink);
+  font-family: var(--display);
+  border-radius: 999px;
+  box-shadow: 0 2px 0 rgba(39, 39, 39, 0.12);
+}
+.ontwerp .doelPijl .pijl { color: var(--clay); }
+
+/* ---- zwevende kaartbediening linksboven ---- */
+.ow-topbar {
+  position: absolute; top: 12px; left: 12px; z-index: 15;
+  display: flex; flex-direction: column; gap: 8px; align-items: flex-start;
+}
+
+.ow-seg {
+  display: inline-flex;
+  background: var(--paper);
+  border: 1.5px solid var(--sand);
+  border-radius: 999px;
+  padding: 3px;
+  box-shadow: 0 2px 0 rgba(39, 39, 39, 0.12);
+}
+.ow-seg button {
+  border: none; background: transparent; cursor: pointer;
+  font-family: var(--display); font-size: 13px; color: var(--muted);
+  padding: 6px 13px; border-radius: 999px; line-height: 1;
+}
+.ow-seg button.on { background: var(--ink); color: var(--paper); }
+
+.ow-bases { display: inline-flex; gap: 6px; }
+.ow-bases button {
+  border: 1.5px solid var(--sand); background: var(--paper);
+  cursor: pointer; font-family: var(--display); font-size: 12px;
+  color: var(--muted); padding: 5px 10px; border-radius: 9px; line-height: 1;
+  box-shadow: 0 2px 0 rgba(39, 39, 39, 0.1);
+}
+.ow-bases button.on { background: var(--tan); color: var(--ink); border-color: var(--tan); }
+
+/* ============================================================
+   Het onderblad (bottom sheet) — het rust laag in de duimzone
+   ============================================================ */
+.ow-sheet {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 20;
+  background: var(--paper);
+  border-top-left-radius: 22px; border-top-right-radius: 22px;
+  border-top: 2px solid var(--sand);
+  box-shadow: 0 -10px 30px rgba(39, 39, 39, 0.18);
+  padding: 6px 18px calc(16px + env(safe-area-inset-bottom));
+  max-height: 78vh; overflow-y: auto;
+}
+/* subtiele riso-korrel over het papier */
+.ow-sheet::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  border-top-left-radius: 22px; border-top-right-radius: 22px;
+  opacity: 0.5; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.09'/%3E%3C/svg%3E");
+}
+.ow-sheet > * { position: relative; }
+
+.ow-grip {
+  display: block; width: 44px; height: 5px; margin: 6px auto 12px;
+  border: none; border-radius: 999px; background: var(--sand); cursor: pointer;
+}
+
+/* ---- resultaat: de vertrektijd-"balk" ---- */
+.ow-result { display: flex; flex-direction: column; gap: 12px; }
+
+.ow-board {
+  display: flex; align-items: center; gap: 16px;
+  background: var(--board); color: var(--paper);
+  border-radius: 16px; padding: 14px 18px; cursor: pointer;
+}
+.ow-flap {
+  font-family: var(--display); font-weight: 700;
+  font-size: 60px; line-height: 0.9; letter-spacing: -1px;
+  perspective: 300px; min-width: 1.2em; text-align: center;
+}
+.ow-flap-num { display: inline-block; animation: ow-flap 0.38s ease-out; transform-origin: center bottom; }
+@keyframes ow-flap {
+  0%   { transform: rotateX(85deg); opacity: 0; }
+  55%  { transform: rotateX(-8deg); opacity: 1; }
+  100% { transform: rotateX(0); }
+}
+.ow-board-side { display: flex; flex-direction: column; gap: 2px; }
+.ow-unit { font-family: var(--display); font-size: 19px; opacity: 0.85; line-height: 1; }
+.ow-dist { font-size: 13.5px; color: #cbb9a6; letter-spacing: 0.3px; }
+.ow-board-tag { margin-left: auto; font-size: 12px; color: #a99b8b; text-align: right; line-height: 1.3; }
+
+/* ---- bestemmingsregel (de gekozen arm) ---- */
+.ow-dest {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  background: var(--paper-2); border: 1.5px solid var(--sand);
+  border-radius: 13px; padding: 11px 14px; cursor: pointer; text-align: left;
+}
+.ow-dest-arrow { color: var(--clay); font-size: 18px; line-height: 1; }
+.ow-dest-name { font-family: var(--display); font-size: 20px; font-weight: 700; color: var(--ink); }
+.ow-dest-change { margin-left: auto; font-size: 12.5px; color: var(--muted); text-decoration: underline; }
+
+/* ---- zand-waarschuwing: warm, geen alarm ---- */
+.ow-sand {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--tan); color: #6d3115;
+  border-radius: 11px; padding: 9px 13px; font-size: 13.5px; line-height: 1.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.7' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)' opacity='0.12'/%3E%3C/svg%3E");
+}
+
+/* ---- startregel ---- */
+.ow-startline { font-size: 13.5px; color: var(--muted); padding: 2px 2px 4px; }
+.ow-startline b { color: var(--ink); font-family: var(--display); font-weight: 700; }
+.ow-startline button {
+  border: none; background: none; color: var(--muted); cursor: pointer;
+  text-decoration: underline; font: inherit; padding: 0;
+}
+.ow-gps-note {
+  background: var(--peri); color: #223b52; border-radius: 10px;
+  padding: 8px 12px; font-size: 12.5px; line-height: 1.35;
+}
+
+/* ---- uitgeklapte details: ondergrond-balk + haltes + info ---- */
+.ow-details { display: flex; flex-direction: column; gap: 13px; padding-top: 2px; }
+
+.ow-surface-bar {
+  display: flex; height: 12px; border-radius: 999px; overflow: hidden;
+  border: 1.5px solid var(--sand);
+}
+.ow-surface-bar span { display: block; }
+.ow-surface-bar span.zand {
+  background-image: repeating-linear-gradient(45deg, transparent 0 3px, rgba(255,255,255,0.35) 3px 6px);
+}
+.ow-legend { display: flex; flex-wrap: wrap; gap: 5px 12px; }
+.ow-legend .item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.ow-legend .dot { width: 11px; height: 11px; border-radius: 3px; }
+
+.ow-legs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.ow-legs li {
+  position: relative; padding: 4px 0 4px 20px; font-size: 14px; color: var(--ink);
+}
+.ow-legs li::before {
+  content: ''; position: absolute; left: 5px; top: 11px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--paper); border: 2px solid var(--clay);
+}
+.ow-legs li:not(:last-child)::after {
+  content: ''; position: absolute; left: 8px; top: 18px; bottom: -2px;
+  width: 2px; background: var(--sand);
+}
+.ow-legs .m { color: var(--muted); font-size: 12.5px; }
+
+.ow-info {
+  font-size: 13px; color: var(--muted); line-height: 1.45; margin: 0;
+  border-left: 3px solid var(--terra); padding: 4px 0 4px 11px;
+}
+.ow-info b { color: var(--ink); }
+
+/* ---- lege staat / uitnodiging ---- */
+.ow-invite { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 9px; padding: 4px 6px 8px; }
+.ow-invite .octo { color: var(--clay); }
+.ow-invite h2 { font-family: var(--display); font-size: 24px; margin: 2px 0 0; color: var(--ink); }
+.ow-invite p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.4; max-width: 30ch; }
+
+.ow-noroute { display: flex; flex-direction: column; gap: 10px; padding: 4px 0 6px; }
+.ow-noroute p { margin: 0; font-size: 14.5px; color: var(--ink); line-height: 1.4; }
+
+/* doel buiten het netwerk: pijl-notitie + pijl-alleen-kaart */
+.ow-arrownote {
+  display: flex; align-items: flex-start; gap: 8px;
+  background: var(--peri); color: #223b52;
+  border-radius: 11px; padding: 9px 13px; font-size: 13px; line-height: 1.35;
+}
+.ow-arrownote .k { font-size: 15px; line-height: 1.2; }
+
+.ow-arrowonly { display: flex; flex-direction: column; gap: 6px; padding: 2px 2px 2px; }
+.ow-arrowonly .lead { font-size: 15px; color: var(--ink); line-height: 1.4; }
+.ow-arrowonly .big {
+  font-family: var(--display); font-weight: 700; font-size: 40px; line-height: 1;
+  color: var(--clay); letter-spacing: -1px;
+}
+.ow-arrowonly .sub { font-size: 13px; color: var(--muted); }
+
+/* ---- knoppen ---- */
+.ow-btn, .ow-btn-primary {
+  font-family: var(--display); font-size: 15px; cursor: pointer;
+  border-radius: 12px; padding: 12px 18px; border: 1.5px solid var(--sand);
+  background: var(--paper); color: var(--ink); box-shadow: 0 2px 0 rgba(39,39,39,0.12);
+}
+.ow-btn-primary { background: var(--clay); color: var(--paper); border-color: var(--clay); font-weight: 700; }
+.ow-btn-primary:hover { background: #a93c25; }
+.ow-nav { width: 100%; text-align: center; font-size: 16.5px; padding: 13px; letter-spacing: .3px; }
+
+/* kies begin- en eindpunt op de kaart (Google-Maps-stijl) */
+.ow-mapkies {
+  width: 100%; margin-top: 2px; background: var(--paper-2);
+  border: 1.5px solid var(--sand); border-radius: 12px; padding: 11px;
+  font-family: var(--display); font-weight: 700; font-size: 14px; color: var(--ink);
+  cursor: pointer; box-shadow: 0 2px 0 rgba(39, 39, 39, 0.08);
+}
+.ow-mapkies:hover { border-color: var(--clay); }
+
+.ow-pick { display: flex; align-items: center; gap: 12px; padding: 6px 2px 4px; }
+.ow-pickstep { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.ow-pickstep b { font-family: var(--display); font-weight: 700; font-size: 18px; color: var(--ink); }
+.ow-pickstep span { font-size: 13px; color: var(--muted); }
+
+/* ============================================================
+   Kiezer-overlay (bestemming of vertrek)
+   ============================================================ */
+.ow-picker {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 30;
+  background: var(--paper);
+  border-top-left-radius: 22px; border-top-right-radius: 22px;
+  border-top: 2px solid var(--sand);
+  box-shadow: 0 -12px 34px rgba(39, 39, 39, 0.28);
+  max-height: 82vh; display: flex; flex-direction: column;
+  animation: ow-rise 0.22s ease-out;
+}
+@keyframes ow-rise { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.ow-scrim { position: absolute; inset: 0; z-index: 29; background: rgba(39, 39, 39, 0.28); }
+
+.ow-picker-head {
+  display: flex; align-items: center; gap: 10px;
+  padding: 16px 18px 10px;
+}
+.ow-picker-head h3 { font-family: var(--display); font-size: 20px; margin: 0; flex: 1; }
+.ow-picker-head .close {
+  border: 1.5px solid var(--sand); background: var(--paper); border-radius: 999px;
+  width: 32px; height: 32px; cursor: pointer; font-size: 16px; color: var(--muted); line-height: 1;
+}
+.ow-picker-list { overflow-y: auto; padding: 0 12px 16px; }
+
+.ow-item {
+  display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+  background: var(--paper-2); border: 1.5px solid transparent;
+  border-radius: 13px; padding: 12px 14px; cursor: pointer; margin: 6px 0;
+}
+.ow-item:hover { border-color: var(--sand); }
+.ow-item.on { border-color: var(--clay); background: #faf0ea; }
+.ow-item .nm { font-family: var(--display); font-size: 16.5px; color: var(--ink); flex: 1; }
+.ow-item .tag {
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.6px;
+  color: var(--muted); border: 1.5px solid var(--sand); border-radius: 999px; padding: 2px 8px;
+}
+.ow-item .tag.stage { color: var(--clay); border-color: var(--peach); background: #fbeee9; }
+.ow-item .far { font-size: 12.5px; color: var(--muted); font-family: var(--display); min-width: 3.6em; text-align: right; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ow-flap-num, .ow-picker { animation: none; }
+}
+
+/* wat ruimte op grotere schermen: blad niet full-width */
+@media (min-width: 620px) {
+  .ow-sheet, .ow-picker { left: auto; right: 16px; bottom: 16px; width: 380px; border-radius: 22px; border: 2px solid var(--sand); }
+  .ow-sheet { box-shadow: 0 14px 40px rgba(39,39,39,0.22); }
+}

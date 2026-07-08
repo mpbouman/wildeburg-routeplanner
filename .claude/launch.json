@@ -4,8 +4,16 @@
     {
       "name": "wildeburg-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 5173
+      "runtimeArgs": ["run", "dev", "--", "--port", "5188", "--strictPort"],
+      "port": 5188,
+      "autoPort": false
+    },
+    {
+      "name": "joint-test",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8899", "--directory", "C:/Users/dyn1015/Dropbox/Dynaflow/Claude code folder/wildeburg-joint-test"],
+      "port": 8899,
+      "autoPort": false
     }
   ]
 }

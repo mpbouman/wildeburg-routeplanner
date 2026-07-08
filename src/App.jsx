@@ -3,11 +3,15 @@ import GraphMap from './components/GraphMap.jsx';
 import RoutePanel from './components/RoutePanel.jsx';
 import EditorBar from './components/EditorBar.jsx';
 import NavigatiePrototype from './components/NavigatiePrototype.jsx';
-import { snelsteRoute } from './lib/route.js';
+import OntwerpViewer from './components/OntwerpViewer.jsx';
+import { snelsteRoute, routeMetPijl } from './lib/route.js';
 import { loadData, saveLocal, resetLocal, exportData, isEditor } from './lib/store.js';
 import { defaultData } from './data/defaultMapData.js';
 import { fitImgGeo } from './lib/fit.js';
 import { haversineM } from './lib/geo.js';
+
+// Bezoekers-herontwerp (synthese) achter ?ontwerp — laat de live-app ongemoeid.
+const isOntwerp = new URLSearchParams(window.location.search).has('ontwerp');
 
 export default function App() {
   const [data, setData] = useState(null);
@@ -159,6 +163,13 @@ export default function App() {
   const route = useMemo(
     () => (data ? snelsteRoute(data, effStart, doel, accessible) : null),
     [data, effStart, doel, accessible]
+  );
+
+  // Herontwerp: onbereikbaar doel → route naar de dichtstbijzijnde knoop, de
+  // rest alleen als pijl. Alleen in ?ontwerp; de live-app blijft ongewijzigd.
+  const ontwerpRoute = useMemo(
+    () => (isOntwerp && data ? routeMetPijl(data, effStart, doel) : route),
+    [data, effStart, doel, route]
   );
 
   if (!data) return <div className="loading">Laden…</div>;
@@ -522,7 +533,7 @@ export default function App() {
   }
 
   const mapProps = {
-    data, route, startId: effStart, doelId: doel, userPos,
+    data, route: isOntwerp ? ontwerpRoute : route, startId: effStart, doelId: doel, userPos,
     mode, tool, pendingId: chainId, align, selId,
     onToggleSelect: (id) => setSelId((s) => (s === id ? null : id)),
     onSelectNode: handleSelectNode,
@@ -538,6 +549,29 @@ export default function App() {
     onAlignCommit: alignCommit,
     onMapRef: (space, m) => { mapsRef.current[space] = m; }
   };
+
+  // Herontwerp-bezoekersweergave: beeldvullende kaart + onderblad met
+  // vertrektijd/wegwijzer. Hergebruikt alle bestaande state en de routemachine.
+  if (isOntwerp) {
+    return (
+      <>
+        <OntwerpViewer
+          data={data} route={ontwerpRoute} gps={gps} userPos={userPos}
+          view={view} base={base} start={start} doel={doel} effStart={effStart}
+          imgNamen={imgNamen}
+          onStart={setStart} onDoel={setDoel} onView={setView}
+          onBase={kiesBase} onToggleNamen={wisselNamen}
+          onNavigeer={() => setNavOpen(true)}
+          mapProps={mapProps} />
+        {navOpen && (
+          <NavigatiePrototype
+            data={data} route={ontwerpRoute} doelId={doel} startId={effStart}
+            userGeo={userGeo} opTerrein={opTerrein}
+            onClose={() => setNavOpen(false)} />
+        )}
+      </>
+    );
+  }
 
   return (
     <div className="app">

@@ -66,3 +66,56 @@ export function metersPerOndergrond(legs) {
   for (const l of legs) acc[l.surface] = (acc[l.surface] ?? 0) + l.meters;
   return acc;
 }
+
+// Alle knopen die vanaf `start` over paden te bereiken zijn (BFS, paden zijn
+// tweerichtings). Gebruikt om bij een onbereikbaar doel het dichtstbijzijnde
+// WEL-bereikbare knooppunt te vinden.
+export function bereikbareKnopen(data, start) {
+  const byId = Object.fromEntries(data.nodes.map((n) => [n.id, n]));
+  const adj = new Map();
+  for (const e of data.edges) {
+    if (!byId[e.a] || !byId[e.b]) continue;
+    if (!adj.has(e.a)) adj.set(e.a, []);
+    if (!adj.has(e.b)) adj.set(e.b, []);
+    adj.get(e.a).push(e.b);
+    adj.get(e.b).push(e.a);
+  }
+  const seen = new Set([start]);
+  const stack = [start];
+  while (stack.length) {
+    const id = stack.pop();
+    for (const nb of adj.get(id) ?? []) {
+      if (!seen.has(nb)) { seen.add(nb); stack.push(nb); }
+    }
+  }
+  return seen;
+}
+
+// Route mét pijl-terugval: ligt het doel niet aan het netwerk (geen pad
+// heen), dan loopt de route naar het dichtstbijzijnde bereikbare knooppunt en
+// wijst de rest alleen als pijl naar het doel. Geeft de gewone route terug als
+// het doel wél bereikbaar is; extra velden bij terugval:
+//   offNetwork: true, viaNode: <knoop-id>, restMeters: <hemelsbreed via→doel>
+export function routeMetPijl(data, start, doel) {
+  const basis = snelsteRoute(data, start, doel);
+  if (basis.found) return { ...basis, offNetwork: false };
+
+  const byId = Object.fromEntries(data.nodes.map((n) => [n.id, n]));
+  const doelNode = byId[doel];
+  if (!doelNode) return { ...basis, offNetwork: false };
+
+  const bereikbaar = bereikbareKnopen(data, start);
+  let via = null, best = Infinity;
+  for (const id of bereikbaar) {
+    const n = byId[id];
+    if (!n) continue;
+    const d = haversineM(n.geo, doelNode.geo);
+    if (d < best) { best = d; via = id; }
+  }
+  if (!via) return { ...basis, offNetwork: false };
+
+  const naarVia = via === start
+    ? { path: [start], legs: [], totalMinutes: 0, totalMeters: 0, found: true }
+    : snelsteRoute(data, start, via);
+  return { ...naarVia, offNetwork: true, viaNode: via, restMeters: best };
+}
