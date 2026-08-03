@@ -3,7 +3,11 @@ import { defaultData } from '../data/defaultMapData.js';
 // v2: geo-posities vervangen door onderzochte werkelijke posities (juli 2026).
 // v3: voorgevulde verbindingen verwijderd — Mick tekent de paden zelf.
 // Oudere sleutels worden bewust genegeerd.
-const KEY = 'wildeburg-mapdata-v3';
+// Meerdere festivals in één editor: ?event=loveland geeft eigen kaartdata,
+// eigen localStorage-werkkopie en een eigen publiceer-doel (map_live-rij).
+export const EVENT = new URLSearchParams(window.location.search).get('event') || 'wildeburg';
+const KEY = EVENT === 'loveland' ? 'loveland-mapdata-v1' : 'wildeburg-mapdata-v3';
+const DATA_FILE = EVENT === 'loveland' ? 'mapdata-loveland.json' : 'mapdata.json';
 
 // Editormodus alleen via ?editor in de URL. Bezoekers krijgen ALTIJD de
 // gepubliceerde kaart (public/mapdata.json) en er wordt bij hen niets in
@@ -22,7 +26,7 @@ export async function loadData() {
     } catch { /* negeren */ }
   }
   try {
-    const res = await fetch('mapdata.json?t=' + Date.now());
+    const res = await fetch(DATA_FILE + '?t=' + Date.now());
     if (res.ok && (res.headers.get('content-type') || '').includes('json')) {
       return await res.json();
     }

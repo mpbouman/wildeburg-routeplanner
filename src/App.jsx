@@ -5,7 +5,7 @@ import EditorBar from './components/EditorBar.jsx';
 import NavigatiePrototype from './components/NavigatiePrototype.jsx';
 import OntwerpViewer from './components/OntwerpViewer.jsx';
 import { snelsteRoute, routeMetPijl } from './lib/route.js';
-import { loadData, saveLocal, resetLocal, exportData, isEditor } from './lib/store.js';
+import { loadData, saveLocal, resetLocal, exportData, isEditor, EVENT } from './lib/store.js';
 import { defaultData } from './data/defaultMapData.js';
 import { fitImgGeo } from './lib/fit.js';
 import { buildWarp } from './lib/warp.js';
@@ -537,7 +537,8 @@ export default function App() {
           Authorization: 'Bearer sb_publishable_XvLMuPXN1JNKD4tq7R-d2w_hBUbNDPl',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ pw, payload: data })
+        // target: welke map_live-rij ('live' = Wildeburg, 'loveland' = Loveland-kloon)
+        body: JSON.stringify({ pw, payload: data, target: EVENT === 'loveland' ? 'loveland' : 'live' })
       });
       if (res.ok) {
         localStorage.setItem('wb_publish_pw', pw);
