@@ -593,6 +593,27 @@ export default function App() {
     }));
   }
 
+  // Geselecteerd punt (her)noemen — window.prompt werkt ook op iPad/iOS.
+  // Krijgt een naamloos kruispunt een naam, dan kan het meteen zichtbaar
+  // worden als faciliteit (kruispunten blijven voor bezoekers onzichtbaar).
+  function renameSel() {
+    if (!selId) return;
+    const node = data.nodes.find((n) => n.id === selId);
+    if (!node) return;
+    const naam = window.prompt('Naam van dit punt:', node.name || '');
+    if (naam == null) return; // geannuleerd
+    const nieuw = naam.trim();
+    let type = node.type;
+    if (nieuw && type === 'junction' &&
+        window.confirm('Dit kruispunt ook tonen als zichtbare plek (faciliteit) in de app?')) {
+      type = 'facility';
+    }
+    setData((d) => ({
+      ...d,
+      nodes: d.nodes.map((n) => (n.id === selId ? { ...n, name: nieuw, type } : n))
+    }));
+  }
+
   // Schaal rest: LOKALE interpolatie-warp van geo → img voor de NIET-vaste
   // KRUISPUNTEN (paden). De vaste punten (ankers) blijven exact staan; stages
   // en faciliteiten blijven ongemoeid (die staan al goed). De warp is:
@@ -739,7 +760,7 @@ export default function App() {
             onTool={(t) => { setTool(t); setChain(null); }}
             onAlign={setAlign}
             onSurface={setSurface} onNewType={setNewType}
-            onToggleFixed={toggleFixed} onScaleRest={scaleRest}
+            onToggleFixed={toggleFixed} onRename={renameSel} onScaleRest={scaleRest}
             onToggleHidePlattegrond={toggleHidePlattegrond}
             preview={preview} onTogglePreview={() => setPreview((v) => !v)}
             onUndo={undo} canUndo={histLen > 0}

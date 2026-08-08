@@ -39,7 +39,7 @@ export default function EditorBar({
   mode, tool, surface, newType, align,
   selNode, hidePlattegrond, preview,
   onMode, onTool, onAlign, onSurface, onNewType,
-  onToggleFixed, onScaleRest, onToggleHidePlattegrond, onTogglePreview,
+  onToggleFixed, onRename, onScaleRest, onToggleHidePlattegrond, onTogglePreview,
   onUndo, canUndo,
   onExport, onImport, onDefaultView, onMerge, onReset,
   onPublish, publishing
@@ -97,7 +97,7 @@ export default function EditorBar({
             </div>
           )}
 
-          {/* Geselecteerd punt: vastzetten */}
+          {/* Geselecteerd punt: vastzetten + (her)noemen */}
           <div className="tbGroup" role="group" aria-label="Geselecteerd punt">
             <TB icon={selNode && selNode.fixed ? '📌' : '📍'}
               label={selNode && selNode.fixed ? 'Vast' : 'Vastzetten'}
@@ -106,6 +106,12 @@ export default function EditorBar({
               onClick={onToggleFixed}
               title={selNode
                 ? 'Zet het geselecteerde punt vast als ankerpunt (blijft staan bij "Schaal rest")'
+                : 'Selecteer eerst een punt (klik het aan in de Selecteren-modus)'} />
+            <TB icon="✏️" label="Naam"
+              disabled={!selNode}
+              onClick={onRename}
+              title={selNode
+                ? `Geef "${selNode.name || selNode.id}" een (nieuwe) naam — een benoemd kruispunt kan meteen faciliteit worden`
                 : 'Selecteer eerst een punt (klik het aan in de Selecteren-modus)'} />
           </div>
 
