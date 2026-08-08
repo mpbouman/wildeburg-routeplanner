@@ -1,285 +1,326 @@
 {
-  "meta": {
-    "base": "pdok",
-    "imgH": 1350,
-    "imgW": 2400,
-    "zoom": 15.6,
-    "center": [
-      4.8149,
-      52.3649
-    ],
-    "bearing": 0,
-    "imgFile": "plattegrond-loveland.jpg",
-    "imgNamen": true,
-    "hidePlattegrondNetwork": false,
-    "temporary": false
-  },
-  "edges": [
-    {
-      "a": "entree",
-      "b": "j6",
-      "surface": "verhard",
-      "toegankelijk": true
-    },
-    {
-      "a": "j6",
-      "b": "ehbo",
-      "surface": "verhard",
-      "toegankelijk": true
-    },
-    {
-      "a": "j6",
-      "b": "j4",
-      "surface": "verhard",
-      "toegankelijk": true
-    },
-    {
-      "a": "j4",
-      "b": "arena",
-      "surface": "verhard",
-      "toegankelijk": true
-    },
-    {
-      "a": "j4",
-      "b": "toiletten",
-      "surface": "verhard",
-      "toegankelijk": true
-    },
-    {
-      "a": "j4",
-      "b": "nest",
-      "surface": "verhard",
-      "toegankelijk": true
-    },
-    {
-      "a": "nest",
-      "b": "rise",
-      "surface": "verhard",
-      "toegankelijk": true
-    },
-    {
-      "a": "rise",
-      "b": "j5",
-      "surface": "verhard",
-      "toegankelijk": true
-    },
-    {
-      "a": "j5",
-      "b": "food",
-      "surface": "verhard",
-      "toegankelijk": true
-    },
-    {
-      "a": "j5",
-      "b": "circle",
-      "surface": "verhard",
-      "toegankelijk": true
-    },
-    {
-      "a": "j5",
-      "b": "909",
-      "surface": "verhard",
-      "toegankelijk": true
-    },
-    {
-      "a": "circle",
-      "b": "fire",
-      "surface": "verhard",
-      "toegankelijk": true
-    }
+ "meta": {
+  "base": "pdok",
+  "imgH": 1318,
+  "imgW": 2560,
+  "zoom": 15.6,
+  "center": [
+   4.8149,
+   52.3649
   ],
-  "nodes": [
-    {
-      "id": "fire",
-      "geo": [
-        4.8162,
-        52.3618
-      ],
-      "img": [
-        384,
-        954
-      ],
-      "info": "Mainstage, zuidkant van het terrein.",
-      "name": "FIRE!",
-      "type": "stage",
-      "fixed": true
-    },
-    {
-      "id": "909",
-      "geo": [
-        4.814,
-        52.363
-      ],
-      "img": [
-        678,
-        558
-      ],
-      "info": "Techno-stage aan de waterkant.",
-      "name": "909",
-      "type": "stage",
-      "fixed": true
-    },
-    {
-      "id": "circle",
-      "geo": [
-        4.8157,
-        52.3638
-      ],
-      "img": [
-        882,
-        858
-      ],
-      "info": "Immersieve stage, midden op het terrein.",
-      "name": "CIRCLE",
-      "type": "stage",
-      "fixed": true
-    },
-    {
-      "id": "rise",
-      "geo": [
-        4.8151,
-        52.3646
-      ],
-      "img": [
-        1080,
-        756
-      ],
-      "info": "Melodieuze stage, centrum van het terrein.",
-      "name": "RISE",
-      "type": "stage",
-      "fixed": true
-    },
-    {
-      "id": "nest",
-      "geo": [
-        4.8151,
-        52.3652
-      ],
-      "img": [
-        1242,
-        756
-      ],
-      "info": "Intieme stage naast RISE.",
-      "name": "NEST",
-      "type": "stage",
-      "fixed": true
-    },
-    {
-      "id": "arena",
-      "geo": [
-        4.8156,
-        52.3664
-      ],
-      "img": [
-        1524,
-        846
-      ],
-      "info": "Tweede grote stage, noordkant.",
-      "name": "ARENA",
-      "type": "stage",
-      "fixed": true
-    },
-    {
-      "id": "entree",
-      "geo": [
-        4.8131,
-        52.3678
-      ],
-      "img": [
-        1884,
-        390
-      ],
-      "info": "Hoofdentree — taxi/fiets/tram-kant. Volg ter plaatse de bebording.",
-      "name": "Entree",
-      "type": "facility",
-      "fixed": true
-    },
-    {
-      "id": "food",
-      "geo": [
-        4.8149,
-        52.3645
-      ],
-      "img": [
-        1068,
-        720
-      ],
-      "info": "Loveland Piazza — food & drinks.",
-      "name": "Loveland Piazza",
-      "type": "facility",
-      "fixed": true
-    },
-    {
-      "id": "toiletten",
-      "geo": [
-        4.8141,
-        52.3648
-      ],
-      "img": [
-        1136,
-        564
-      ],
-      "info": "Toiletten.",
-      "name": "Toiletten",
-      "type": "facility",
-      "fixed": true
-    },
-    {
-      "id": "ehbo",
-      "geo": [
-        4.8145,
-        52.366
-      ],
-      "img": [
-        1436,
-        640
-      ],
-      "info": "EHBO / first aid, bij de servicezone.",
-      "name": "EHBO",
-      "type": "facility",
-      "fixed": true
-    },
-    {
-      "id": "j4",
-      "geo": [
-        4.8148,
-        52.3655
-      ],
-      "img": [
-        1300,
-        700
-      ],
-      "name": "Kruising noord",
-      "type": "junction",
-      "fixed": true
-    },
-    {
-      "id": "j5",
-      "geo": [
-        4.8154,
-        52.3641
-      ],
-      "img": [
-        950,
-        800
-      ],
-      "name": "Kruising midden",
-      "type": "junction",
-      "fixed": true
-    },
-    {
-      "id": "j6",
-      "geo": [
-        4.8138,
-        52.3673
-      ],
-      "img": [
-        1750,
-        520
-      ],
-      "name": "Kruising entree",
-      "type": "junction",
-      "fixed": true
-    }
-  ]
+  "bearing": 0,
+  "imgFile": "plattegrond-loveland-2026.jpg",
+  "imgNamen": true,
+  "temporary": false,
+  "hidePlattegrondNetwork": false
+ },
+ "edges": [
+  {
+   "a": "j6",
+   "b": "ehbo",
+   "surface": "verhard",
+   "toegankelijk": true
+  },
+  {
+   "a": "nest",
+   "b": "rise",
+   "surface": "verhard",
+   "toegankelijk": true
+  },
+  {
+   "a": "rise",
+   "b": "j5",
+   "surface": "verhard",
+   "toegankelijk": true
+  },
+  {
+   "a": "j5",
+   "b": "circle",
+   "surface": "verhard",
+   "toegankelijk": true
+  },
+  {
+   "a": "j5",
+   "b": "909",
+   "surface": "verhard",
+   "toegankelijk": true
+  },
+  {
+   "a": "entree",
+   "b": "pmsd0ahfla0h",
+   "surface": "verhard",
+   "toegankelijk": true
+  },
+  {
+   "a": "pmsd0ahfla0h",
+   "b": "j6",
+   "surface": "verhard",
+   "toegankelijk": true
+  },
+  {
+   "a": "circle",
+   "b": "pmsd0gygo32o",
+   "surface": "verhard",
+   "toegankelijk": true
+  },
+  {
+   "a": "pmsd0h2igq9y",
+   "b": "pmsd0h4ywk2k",
+   "surface": "verhard",
+   "toegankelijk": true
+  },
+  {
+   "a": "pmsd0h4ywk2k",
+   "b": "fire",
+   "surface": "verhard",
+   "toegankelijk": true
+  },
+  {
+   "a": "pmsd0gygo32o",
+   "b": "pmsk77quv7lz",
+   "surface": "verhard",
+   "toegankelijk": true
+  },
+  {
+   "a": "pmsk77quv7lz",
+   "b": "pmsd0h2igq9y",
+   "surface": "verhard",
+   "toegankelijk": true
+  }
+ ],
+ "nodes": [
+  {
+   "id": "fire",
+   "geo": [
+    4.8127697190602134,
+    52.36479574004326
+   ],
+   "img": [
+    175,
+    943
+   ],
+   "info": "Mainstage, zuidkant van het terrein.",
+   "name": "FIRE!",
+   "type": "stage",
+   "fixed": true
+  },
+  {
+   "id": "909",
+   "geo": [
+    4.811560404823808,
+    52.36639551058204
+   ],
+   "img": [
+    603,
+    416
+   ],
+   "info": "Techno-stage aan de waterkant.",
+   "name": "909",
+   "type": "stage",
+   "fixed": true
+  },
+  {
+   "id": "circle",
+   "geo": [
+    4.815736837890142,
+    52.36716294216123
+   ],
+   "img": [
+    887,
+    792
+   ],
+   "info": "Immersieve stage, midden op het terrein.",
+   "name": "CIRCLE",
+   "type": "stage",
+   "fixed": true
+  },
+  {
+   "id": "rise",
+   "geo": [
+    4.816002349688546,
+    52.36808257030219
+   ],
+   "img": [
+    1243,
+    657
+   ],
+   "info": "Melodieuze stage, centrum van het terrein.",
+   "name": "RISE",
+   "type": "stage",
+   "fixed": true
+  },
+  {
+   "id": "nest",
+   "geo": [
+    4.816855069422473,
+    52.36848501935373
+   ],
+   "img": [
+    1441,
+    700
+   ],
+   "info": "Intieme stage naast RISE.",
+   "name": "NEST",
+   "type": "stage",
+   "fixed": true
+  },
+  {
+   "id": "arena",
+   "geo": [
+    4.817702816481301,
+    52.36901197939076
+   ],
+   "img": [
+    1795,
+    771
+   ],
+   "info": "Tweede grote stage, noordkant.",
+   "name": "ARENA",
+   "type": "stage",
+   "fixed": true
+  },
+  {
+   "id": "entree",
+   "geo": [
+    4.817116231397733,
+    52.37102103713849
+   ],
+   "img": [
+    2281,
+    243
+   ],
+   "info": "Hoofdentree \u00e2\u20ac\u201d taxi/fiets/tram-kant. Volg ter plaatse de bebording.",
+   "name": "Entree",
+   "type": "facility",
+   "fixed": true
+  },
+  {
+   "id": "toiletten",
+   "geo": [
+    4.816940942129349,
+    52.369270156474386
+   ],
+   "img": [
+    1845,
+    548
+   ],
+   "info": "Toiletten.",
+   "name": "Toiletten",
+   "type": "facility",
+   "fixed": true
+  },
+  {
+   "id": "ehbo",
+   "geo": [
+    4.818339759868422,
+    52.369425790172045
+   ],
+   "img": [
+    1702,
+    575
+   ],
+   "info": "EHBO / first aid, bij de servicezone.",
+   "name": "EHBO",
+   "type": "facility",
+   "fixed": true
+  },
+  {
+   "id": "j5",
+   "geo": [
+    4.815729373412751,
+    52.368175355068814
+   ],
+   "img": [
+    1309.2,
+    606.7
+   ],
+   "name": "Kruising midden",
+   "type": "junction",
+   "fixed": true
+  },
+  {
+   "id": "j6",
+   "geo": [
+    4.819610426240558,
+    52.37063188282946
+   ],
+   "img": [
+    2318.9,
+    658.7
+   ],
+   "name": "Kruising entree",
+   "type": "junction",
+   "fixed": true
+  },
+  {
+   "id": "pmsd0ahfla0h",
+   "geo": [
+    4.818910766510669,
+    52.371187884419356
+   ],
+   "img": [
+    2360.1,
+    455.1
+   ],
+   "info": "",
+   "name": "",
+   "type": "junction"
+  },
+  {
+   "id": "pmsd0gygo32o",
+   "geo": [
+    4.8154611449865286,
+    52.367248222020066
+   ],
+   "img": [
+    1070.1,
+    750.3
+   ],
+   "info": "",
+   "name": "",
+   "type": "junction"
+  },
+  {
+   "id": "pmsd0h2igq9y",
+   "geo": [
+    4.814872896296379,
+    52.366933720695016
+   ],
+   "img": [
+    930.0,
+    731.2
+   ],
+   "info": "",
+   "name": "",
+   "type": "junction"
+  },
+  {
+   "id": "pmsd0h4ywk2k",
+   "geo": [
+    4.814676030663122,
+    52.366339429460425
+   ],
+   "img": [
+    773.8,
+    819.9
+   ],
+   "info": "",
+   "name": "",
+   "type": "junction"
+  },
+  {
+   "id": "pmsk77quv7lz",
+   "geo": [
+    4.815162011925742,
+    52.36708829349739
+   ],
+   "img": [
+    998.9,
+    740.6
+   ],
+   "info": "",
+   "name": "",
+   "type": "junction"
+  }
+ ]
 }

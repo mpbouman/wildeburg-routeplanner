@@ -6,7 +6,8 @@ import { defaultData } from '../data/defaultMapData.js';
 // Meerdere festivals in één editor: ?event=loveland geeft eigen kaartdata,
 // eigen localStorage-werkkopie en een eigen publiceer-doel (map_live-rij).
 export const EVENT = new URLSearchParams(window.location.search).get('event') || 'wildeburg';
-const KEY = EVENT === 'loveland' ? 'loveland-mapdata-v1' : 'wildeburg-mapdata-v3';
+// v3 (8 aug): nieuwe officiële plattegrond (liggend, 2560x1318) — verse werkkopie afdwingen
+const KEY = EVENT === 'loveland' ? 'loveland-mapdata-v3' : 'wildeburg-mapdata-v3';
 const DATA_FILE = EVENT === 'loveland' ? 'mapdata-loveland.json' : 'mapdata.json';
 
 // Editormodus alleen via ?editor in de URL. Bezoekers krijgen ALTIJD de
