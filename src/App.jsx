@@ -148,10 +148,13 @@ export default function App() {
   // status voor het paneel: ok / buiten het terrein / geweigerd / zoeken
   const gps = userGeo ? (opTerrein ? 'ok' : 'buiten') : (gpsFout || 'zoeken');
 
-  // stip op de plattegrond: geo → img via dezelfde fit als bij het tekenen
+  // stip op de plattegrond: geo → img via de LOKALE warp (globale fit +
+  // IDW-residuen van de vaste ankers). De kale similarity-fit zette de stip op
+  // de niet-op-schaal getekende Loveland-plattegrond tot ~60 m naast je echte
+  // plek ("alsof de GPS uit stond", 8 aug); de warp is exact op de ankers.
   const userPos = useMemo(() => {
     if (!opTerrein || !data) return null;
-    return { geo: userGeo, img: fitImgGeo(data.nodes).geoToImg(userGeo) };
+    return { geo: userGeo, img: buildWarp(data.nodes).toImg(userGeo) };
   }, [opTerrein, userGeo, data]);
 
   // dichtstbijzijnde netwerkpunt bij de gebruiker = vertrekpunt bij GPS-start
